@@ -1,6 +1,6 @@
 {
-  "name": "expo-images-picker",
-  "version": "1.0.3",
+  "name": "natysoz-test",
+  "version": "1.0.0",
   "description": "Selecting Multiple Assets [images & videos] from the device, using Expo Media Library.",
   "main": "index.js",
   "types": "./src/AssetsSelectorTypes.ts",
