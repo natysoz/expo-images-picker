@@ -15,8 +15,6 @@ Multiple Asset Photos | Videos selecting package for Expo SDK 38+
 ## Best Practice 
 - For users who use React + Styled Components Flow.
 
-Check out how I use it with my Latest app => https://youtu.be/
-
 ## Features
 -   Permission requests built in.
 -   Getting Multi Assets from the device.
