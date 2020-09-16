@@ -50,11 +50,10 @@ const defaultOptions: OptionsType = {
     },
 }
 
-
 /** Plugin to loads media from the phone user */
-export const AssetsSelector = ({
+const AssetsSelector = ({
     options = defaultOptions,
-}: IAssetSelectorProps) => {
+}: IAssetSelectorProps):JSX.Element => {
     const {
         assetsType,
         noAssetsText,
@@ -114,7 +113,7 @@ export const AssetsSelector = ({
     )
 
     const getCameraPermissions = useCallback(async () => {
-        const { status: CAMERA } = await Permissions.askAsync(
+        const { status: CAMERA }: Permissions.PermissionResponse = await Permissions.askAsync(
             Permissions.CAMERA
         )
 
@@ -225,3 +224,5 @@ const Widget = styled.View<{ widgetWidth: number; bgColor: string }>`
     width: ${({ widgetWidth }) => widgetWidth || 100}%;
     flex: 1;
 `
+
+export default AssetsSelector

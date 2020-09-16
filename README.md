@@ -1,4 +1,4 @@
-# expo-images-selector
+# expo-images-picker
 
 Multiple Asset Photos | Videos selecting package for Expo SDK 38+
 

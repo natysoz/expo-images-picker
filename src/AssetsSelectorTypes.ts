@@ -6,6 +6,11 @@ export interface IAssetSelectorProps {
     options?: OptionsType
 }
 
+declare const AssetsSelector:React.FC<IAssetSelectorProps>
+
+export default AssetsSelector
+
+
 export type isEmptyType<T extends object> = keyof T extends never ? any : T
 
 export interface IComponentItem {

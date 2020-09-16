@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text } from 'react-native'
 import styled from 'styled-components/native'
-import {ITopNavProps} from "Sdk/src/AssetsSelectorTypes";
+import {ITopNavProps} from "./AssetsSelectorTypes";
 
 export const DefaultTopNavigator= ({
     finishText,
