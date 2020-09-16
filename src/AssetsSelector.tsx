@@ -126,7 +126,7 @@ const AssetsSelector = ({
         })
     }, [])
 
-    const onClickUseCallBack = React.useCallback((id: string) => {
+    const onClickUseCallBack = useCallback((id: string) => {
         setSelectedItems(selectedItems => {
             if (selectedItems.size < maxSelections || selectedItems.has(id)) {
                 return selectedItems.has(id)
