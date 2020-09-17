@@ -150,6 +150,10 @@ Multiple Asset Photos | Videos selecting package for Expo SDK 38+
 
 * usage With Custom Component 
 
+### Make sure your CustomTopNavigator can receive `onFinish`
+### And throw this `onFinish` function on the correct button.
+the onFinish type: `onFinish: ()=>void`
+
 ```js
         <AssetsSelector
                 options={{
