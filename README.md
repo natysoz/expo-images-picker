@@ -1,6 +1,8 @@
 # expo-images-picker
 
-Multiple Asset Photos | Videos selecting package for Expo SDK 38+
+Multiple Asset Photos | Videos selecting package for Expo SDK 38+.
+
+For users who use React native and managed workflow + Styled Components.
 
 
 [MediaLibrary](https://docs.expo.io/versions/latest/sdk/media-library).
@@ -13,7 +15,8 @@ Multiple Asset Photos | Videos selecting package for Expo SDK 38+
 
 
 ## Best Practice 
-- For users who use React + Styled Components Flow.
+
+Simple How to Video => https://youtu.be/xcMcVZTw6xA
 
 ## Features
 -   Permission requests built in.
