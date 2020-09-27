@@ -1,9 +1,10 @@
 # expo-images-picker
 
-Multiple Asset Photos | Videos selecting package for Expo SDK 38+.
+Multiple Asset Photos | Videos selecting package for Expo SDK 39.
+
+"after" field Parse was fixed on Expo SDK 39 , it is now working smoothly on Android and IPhones.
 
 For users who use React native and managed workflow + Styled Components.
-
 
 [MediaLibrary](https://docs.expo.io/versions/latest/sdk/media-library).
 

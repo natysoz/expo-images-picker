@@ -1,6 +1,6 @@
 {
   "name": "expo-images-picker",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Selecting Multiple Assets [images & videos] from the device, using Expo Media Library.",
   "main": "index.ts",
   "repository": {
@@ -15,7 +15,7 @@
   "homepage": "https://github.com/natysoz/expo-images-picker#readme",
   "peerDependencies": {
     "react": "*",
-    "expo": "*",
+    "expo": "^39.0.0",
     "react-native": "*"
   },
   "dependencies": {
