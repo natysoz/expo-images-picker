@@ -9,7 +9,7 @@ const Item = ({
     id,
     screen,
     cols,
-    selected,
+    selectedIndex,
     image,
     mediaType,
     onClick,
@@ -48,10 +48,15 @@ const Item = ({
                     )}
                 </MediaTypeVideo>
             )}
-            {selected && (
+            {selectedIndex >= 0 && (
                 <Selected selectionColor={bg} margin={margin}>
                     {Component && (
-                        <Component name={iconName} size={size} color={color} />
+                        <Component
+                          name={iconName}
+                          size={size}
+                          color={color}
+                          index={selectedIndex}
+                        />
                     )}
                 </Selected>
             )}
@@ -83,7 +88,7 @@ export const AssetsSelectorList = ({
             id={item.id}
             image={item.uri}
             mediaType={item.mediaType}
-            selected={selectedItems.has(item.id)}
+            selectedIndex={selectedItems.indexOf(item.id)}
             onClick={onClick}
             cols={cols}
             screen={screen}

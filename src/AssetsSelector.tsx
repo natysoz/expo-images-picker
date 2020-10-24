@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
-import { Set } from 'immutable'
 import * as Permissions from 'expo-permissions'
 import { Asset, AssetsOptions, getAssetsAsync } from 'expo-media-library'
 import { AssetsSelectorList } from './AssetsSelectorList'
@@ -76,7 +75,7 @@ const AssetsSelector = ({
 
     const COLUMNS = height >= width ? portraitCols : landscapeCols
 
-    const [selectedItems, setSelectedItems] = useState(Set())
+    const [selectedItems, setSelectedItems] = useState<string[]>([])
 
     const [permissions, setPermissions] = useState({
         hasCameraPermission: false,
@@ -128,11 +127,13 @@ const AssetsSelector = ({
 
     const onClickUseCallBack = useCallback((id: string) => {
         setSelectedItems(selectedItems => {
-            if (selectedItems.size < maxSelections || selectedItems.has(id)) {
-                return selectedItems.has(id)
-                    ? selectedItems.delete(id)
-                    : selectedItems.add(id)
-            } else return selectedItems
+            if (selectedItems.length >= maxSelections)
+                return selectedItems
+
+            if (selectedItems.indexOf(id) === -1)
+                return [...selectedItems, id];
+            else
+                return selectedItems.filter(item => item !== id);
         })
     }, [])
 
@@ -161,7 +162,9 @@ const AssetsSelector = ({
     }
 
     const prepareResponse = useCallback(
-        () => assetItems.filter((asset: { id: any }) => selectedItems.includes(asset.id)),
+        () => assetItems
+          .filter((asset: { id: any }) => selectedItems.indexOf(asset.id) !== -1)
+          .sort((a, b) => selectedItems.indexOf(a.id) - selectedItems.indexOf(b.id)),
         [selectedItems]
     )
 
@@ -182,7 +185,7 @@ const AssetsSelector = ({
                     midTextColor={defaultTopNavigator?.midTextColor || 'black'}
                     backText={defaultTopNavigator?.goBackText || 'Back'}
                     finishText={defaultTopNavigator?.continueText || 'Done'}
-                    selected={selectedItems.size}
+                    selected={selectedItems.length}
                     backFunction={() => defaultTopNavigator.backFunction()}
                     onFinish={() =>
                         defaultTopNavigator.doneFunction(prepareResponse())
