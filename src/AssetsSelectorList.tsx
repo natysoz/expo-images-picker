@@ -110,7 +110,7 @@ export const AssetsSelectorList = ({
         if (noAssets?.Component) {
             return <noAssets.Component/>
         }
-        return <Nothing>{noAssetsText}</Nothing>
+        return <NoAssets>{noAssetsText}</NoAssets>
     }
 
     /** Rendering List of Memo Items */
@@ -135,10 +135,10 @@ const Image = styled.Image`
     width: 100%;
     height: 100%;
 `
-const Nothing = styled.Text`
+const NoAssets = styled.Text`
     padding: 10px;
     font-size: 16px;
-    color: #94c85f;
+    color: black;
     text-align: center;
 `
 

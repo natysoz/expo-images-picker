@@ -1,5 +1,4 @@
-import { Set } from 'immutable'
-import { JSXElementConstructor } from 'react'
+import React, { JSXElementConstructor } from 'react'
 import { Asset, MediaTypeValue } from 'expo-media-library'
 
 export interface IAssetSelectorProps {
@@ -9,9 +8,6 @@ export interface IAssetSelectorProps {
 declare const AssetsSelector:React.FC<IAssetSelectorProps>
 
 export default AssetsSelector
-
-
-export type isEmptyType<T extends object> = keyof T extends never ? any : T
 
 export interface IComponentItem {
     id: string

@@ -1,6 +1,6 @@
 {
   "name": "expo-images-picker",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Selecting Multiple Assets [images & videos] from the device, using Expo Media Library.",
   "main": "index.ts",
   "repository": {
@@ -22,8 +22,7 @@
     "expo-media-library": "~8.2.1",
     "expo-permissions": "~9.0.1",
     "styled-components": "^5.1.1",
-    "@types/styled-components": "^5.1.0",
-    "immutable": "^4.0.0-rc.12"
+    "@types/styled-components": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
