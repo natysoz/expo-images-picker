@@ -127,13 +127,15 @@ const AssetsSelector = ({
 
     const onClickUseCallBack = useCallback((id: string) => {
         setSelectedItems(selectedItems => {
-            if (selectedItems.length >= maxSelections)
+            const alreadySelected = selectedItems.indexOf(id) >= 0;
+
+            if (selectedItems.length >= maxSelections && !alreadySelected)
                 return selectedItems
 
-            if (selectedItems.indexOf(id) === -1)
-                return [...selectedItems, id];
-            else
+            if (alreadySelected)
                 return selectedItems.filter(item => item !== id);
+            else
+                return [...selectedItems, id];
         })
     }, [])
 
