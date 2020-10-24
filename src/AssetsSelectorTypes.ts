@@ -19,7 +19,7 @@ export interface IComponentItem {
     screen: number
     image: string
     margin: number
-    selected: boolean
+    selectedIndex: number
     onClick: (id: string) => void
     mediaType: MediaTypeValue
     selectedIcon: SelectedIcon
@@ -103,7 +103,7 @@ export type IComponentItems = {
     margin: number
     cols: number
     screen: number
-    selectedItems: Set<string>
+    selectedItems: string[]
     onClick: (id: string) => void
     getMoreAssets: () => void
     selectedIcon: SelectedIcon
