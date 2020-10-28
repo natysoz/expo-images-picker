@@ -12,9 +12,6 @@ For users who use React native and managed workflow + Styled Components.
 
 [styled-components](https://github.com/styled-components)
 
-[immutable](https://www.npmjs.com/package/immutable)
-
-
 ## Best Practice 
 
 Simple How to Video => https://youtu.be/xcMcVZTw6xA
