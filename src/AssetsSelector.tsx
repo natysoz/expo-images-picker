@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Dimensions } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import styled from 'styled-components/native'
 import * as Permissions from 'expo-permissions'
 import { Asset, AssetsOptions, getAssetsAsync } from 'expo-media-library'
@@ -14,7 +14,6 @@ import {
 
 const defaultOptions: OptionsType = {
     assetsType: ['video', 'photo'],
-    noAssetsText: 'No Assets Found.',
     maxSelections: 5,
     margin: 2,
     portraitCols: 4,
@@ -34,28 +33,21 @@ const defaultOptions: OptionsType = {
         bg: '#ffffff50',
         size: 28,
     },
-    defaultTopNavigator: {
-        continueText: 'Continue',
-        goBackText: 'Back',
-        buttonBgColor: 'black',
-        buttonTextColor: 'white',
-        midTextColor: 'black',
-        backFunction: () => {},
-        doneFunction: data => data,
-    },
     CustomTopNavigator: {
         Component: null,
         props: {},
     },
+    noAssets: {
+        Component: () => <View />,
+    },
+    onError: () => {},
 }
 
-/** Plugin to loads media from the phone user */
 const AssetsSelector = ({
     options = defaultOptions,
-}: IAssetSelectorProps):JSX.Element => {
+}: IAssetSelectorProps): JSX.Element => {
     const {
         assetsType,
-        noAssetsText,
         maxSelections,
         margin,
         portraitCols,
@@ -67,6 +59,7 @@ const AssetsSelector = ({
         defaultTopNavigator,
         CustomTopNavigator,
         noAssets,
+        onError,
     } = options
 
     const getScreen = () => Dimensions.get('screen')
@@ -95,18 +88,17 @@ const AssetsSelector = ({
     const loadAssets = useCallback(
         (params: AssetsOptions) => {
             getAssetsAsync(params)
-                .then(data => {
-                    if (availableOptions.after === data.endCursor) return
-                    const newAssets = data.assets
+                .then(({ endCursor, assets, hasNextPage }) => {
+                    if (availableOptions.after === endCursor) return
+                    const newAssets = assets
                     setAvailableOptions({
                         ...availableOptions,
-                        after: data.endCursor,
-                        hasNextPage: data.hasNextPage,
+                        after: endCursor,
+                        hasNextPage: hasNextPage,
                     })
                     return setItems([...assetItems, ...newAssets])
                 })
-                .catch(err => {
-                    console.log('Assets Selector',err)})
+                .catch((err) => (onError ? onError() : null))
         },
         [assetItems, permissions.hasCameraPermission]
     )
@@ -116,7 +108,7 @@ const AssetsSelector = ({
             Permissions.CAMERA
         )
 
-        const { status: CAMERA_ROLL }:any = await Permissions.askAsync(
+        const { status: CAMERA_ROLL }: any = await Permissions.askAsync(
             Permissions.CAMERA_ROLL
         )
         setPermissions({
@@ -126,16 +118,13 @@ const AssetsSelector = ({
     }, [])
 
     const onClickUseCallBack = useCallback((id: string) => {
-        setSelectedItems(selectedItems => {
-            const alreadySelected = selectedItems.indexOf(id) >= 0;
-
+        setSelectedItems((selectedItems) => {
+            const alreadySelected = selectedItems.indexOf(id) >= 0
             if (selectedItems.length >= maxSelections && !alreadySelected)
                 return selectedItems
-
             if (alreadySelected)
-                return selectedItems.filter(item => item !== id);
-            else
-                return [...selectedItems, id];
+                return selectedItems.filter((item) => item !== id)
+            else return [...selectedItems, id]
         })
     }, [])
 
@@ -150,7 +139,7 @@ const AssetsSelector = ({
     const getAssets = () => {
         if (availableOptions.hasNextPage) {
             const params: AssetsOptions = {
-                first: 500,
+                first: 200,
                 mediaType: assetsType,
                 sortBy: ['creationTime'],
             }
@@ -164,9 +153,17 @@ const AssetsSelector = ({
     }
 
     const prepareResponse = useCallback(
-        () => assetItems
-          .filter((asset: { id: any }) => selectedItems.indexOf(asset.id) !== -1)
-          .sort((a, b) => selectedItems.indexOf(a.id) - selectedItems.indexOf(b.id)),
+        () =>
+            assetItems
+                .filter(
+                    (asset: { id: any }) =>
+                        selectedItems.indexOf(asset.id) !== -1
+                )
+                .sort(
+                    (a, b) =>
+                        selectedItems.indexOf(a.id) -
+                        selectedItems.indexOf(b.id)
+                ),
         [selectedItems]
     )
 
@@ -176,17 +173,18 @@ const AssetsSelector = ({
                 <CustomTopNavigator.Component
                     {...CustomTopNavigator.props}
                     onFinish={() =>
-                        CustomTopNavigator?.props.doneFunction(prepareResponse())
+                        CustomTopNavigator?.props.doneFunction(
+                            prepareResponse()
+                        )
                     }
                 />
             )}
             {defaultTopNavigator && (
                 <DefaultTopNavigator
-                    fontColor={defaultTopNavigator?.buttonTextColor || 'white'}
-                    bgColor={defaultTopNavigator?.buttonBgColor || 'black'}
-                    midTextColor={defaultTopNavigator?.midTextColor || 'black'}
-                    backText={defaultTopNavigator?.goBackText || 'Back'}
-                    finishText={defaultTopNavigator?.continueText || 'Done'}
+                    textStyle={defaultTopNavigator.textStyle}
+                    buttonStyle={defaultTopNavigator.buttonStyle}
+                    backText={defaultTopNavigator.goBackText}
+                    finishText={defaultTopNavigator.continueText}
                     selected={selectedItems.length}
                     backFunction={() => defaultTopNavigator.backFunction()}
                     onFinish={() =>
@@ -194,7 +192,6 @@ const AssetsSelector = ({
                     }
                 />
             )}
-
             <Widget widgetWidth={widgetWidth} bgColor={widgetBgColor}>
                 <AssetsSelectorList
                     cols={COLUMNS}
@@ -207,14 +204,12 @@ const AssetsSelector = ({
                     selectedIcon={selectedIcon}
                     videoIcon={videoIcon}
                     noAssets={noAssets}
-                    noAssetsText={noAssetsText}
                 />
             </Widget>
         </Screen>
     )
 }
 
-/** Styles */
 const Screen = styled.View<{ bgColor: string }>`
     background-color: ${({ bgColor }) => bgColor};
     flex: 1;
@@ -223,7 +218,6 @@ const Screen = styled.View<{ bgColor: string }>`
 const Widget = styled.View<{ widgetWidth: number; bgColor: string }>`
     margin: 0 auto;
     flex-direction: row;
-    align-items: center;
     justify-content: space-between;
     background-color: ${({ bgColor }) => bgColor};
     width: ${({ widgetWidth }) => widgetWidth || 100}%;

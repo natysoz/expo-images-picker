@@ -1,5 +1,3 @@
 import AssetsSelector from './src/AssetsSelector'
 
-export {
-    AssetsSelector
-}
+export { AssetsSelector }

@@ -1,48 +1,40 @@
 import React from 'react'
 import { Text } from 'react-native'
 import styled from 'styled-components/native'
-import {ITopNavProps} from "./AssetsSelectorTypes";
+import { ITopNavProps } from './AssetsSelectorTypes'
 
-export const DefaultTopNavigator= ({
+export const DefaultTopNavigator = ({
     finishText,
     backText,
     selected,
     backFunction,
-    fontColor,
-    bgColor,
-    midTextColor,
     onFinish,
-}:ITopNavProps) => (
-        <Navigator>
-            <SimpleButton bgColor={bgColor} onPress={backFunction}>
-                <ButtonText fontColor={fontColor}>{backText}</ButtonText>
-            </SimpleButton>
+    textStyle,
+    buttonStyle,
+}: ITopNavProps) => (
+    <Navigator>
+        <SimpleButton style={buttonStyle} onPress={backFunction}>
+            <Text style={textStyle}>{backText}</Text>
+        </SimpleButton>
 
-            <Text style={{ color: midTextColor }}>{selected} Selected </Text>
+        <Text style={textStyle}>{selected} Selected </Text>
 
-            <SimpleButton bgColor={bgColor} onPress={onFinish}>
-                <ButtonText fontColor={fontColor}>{finishText}</ButtonText>
-            </SimpleButton>
-        </Navigator>
-    )
+        <SimpleButton style={buttonStyle} onPress={onFinish}>
+            <Text style={textStyle}>{finishText}</Text>
+        </SimpleButton>
+    </Navigator>
+)
 
-
-const SimpleButton = styled.TouchableOpacity<{
-    bgColor: string
-}>`
+const SimpleButton = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
     width: 100px;
     height: 38px;
-    background-color: ${({ bgColor }) => bgColor};
-`
-
-const ButtonText = styled.Text<{ fontColor: string }>`
-    color: ${({ fontColor }) => fontColor};
 `
 
 const Navigator = styled.View`
-    width: 100%;
+    width: 98%;
+    margin: 0 auto;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;

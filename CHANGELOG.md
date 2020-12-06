@@ -4,13 +4,23 @@
 ### 🛠 Breaking changes
 -----------------------------------------
 
+#### 1.1.0 — 2020-06-12
+
+- Removed ['buttonBgColor','buttonTextColor','midTextColor'] props from DefaultNavigator
+
 ### 🎉 New features
 -----------------------------------------
 
+#### 1.1.0 — 2020-06-12
+
+-  Add Style prop to style DefaultNavigator.
+-  Add onError prop will fire whenever there is error loading Assets.
+
 #### 1.0.7 — 2020-10-25
- - Now , you can send now simple component instead of icon components ,
+ - You can send simple component instead of icon components ,
   to display numbers on top of the images (instead of icon)
-  for example create simple component like :
+  
+for example:
   
   `const SelectedIcon = ({size,index,color}: SelectedIconProps) => <Text style={{color:color,fontSize:size}}>{index + 1}</Text>`
   
@@ -34,6 +44,10 @@
 
 ### 🐛 Bug fixes
 -----------------------------------------
+#### 1.1.0 — 2020-06-12
+
+- "after" field Parse was fixed on Expo SDK 39 , it's now working smoothly on Android and IOS.
+- Fix design bug , if you had less than 4 images in total , widget center it and its looking not correct, so align-items:center removed  
 
 #### 1.0.7 — 2020-10-25
 
@@ -42,9 +56,9 @@ _Request from "hypnocapybara" Was Merged ([#1](https://github.com/natysoz/expo-i
 
 #### 1.0.6 — 2020-09-27
 
-_Update to Expo SDK 39 is now require , they fix the issue with parse error on the "after" field
+_Update to Expo SDK 39 is now required , they fix the issue with parse error on the "after" field
 
-_Still they have issue with asset that is not valid "Asset",
+_Still they have issue with an asset that is not valid "Asset",
 images that users manually put on the Gallery folder may cause the app to close without any error. 
 
 _Request from the team to help on  issue ([#10398](https://github.com/expo/expo/issues/10398))
@@ -55,5 +69,12 @@ _Request from the team to help on  issue ([#10398](https://github.com/expo/expo/
 * Images and Videos that users manually put on the Gallery
 can crash the app without any error especially Telegram images and videos.
 Expo Media library is very buggy.
+
+### Upcoming
+-----------------------------------------
+* Add the option to get images as Base64 string.
+* Add the option to resize images and get their local url on a device or Base64.
+
+
 
 

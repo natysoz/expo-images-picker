@@ -4,7 +4,6 @@ import { Asset } from 'expo-media-library'
 import styled from 'styled-components/native'
 import { IComponentItem, IComponentItems } from './AssetsSelectorTypes'
 
-/** Memo Item Object so we can shallow compare it when re-render acquire . */
 const Item = ({
     id,
     screen,
@@ -52,10 +51,10 @@ const Item = ({
                 <Selected selectionColor={bg} margin={margin}>
                     {Component && (
                         <Component
-                          name={iconName}
-                          size={size}
-                          color={color}
-                          index={selectedIndex}
+                            name={iconName}
+                            size={size}
+                            color={color}
+                            index={selectedIndex}
                         />
                     )}
                 </Selected>
@@ -65,10 +64,8 @@ const Item = ({
     )
 }
 
-/** Memo the item into instance */
 const MemoizedAssetItem = memo(Item)
 
-/** Rendering Assets list of Memo items */
 export const AssetsSelectorList = ({
     margin,
     data,
@@ -80,9 +77,7 @@ export const AssetsSelectorList = ({
     selectedIcon,
     videoIcon,
     noAssets,
-    noAssetsText,
 }: IComponentItems) => {
-    /** Declare the render function that takes Item and its Props */
     const _renderItem = ({ item }: { item: Asset }) => (
         <MemoizedAssetItem
             id={item.id}
@@ -106,14 +101,8 @@ export const AssetsSelectorList = ({
         return { length, offset: length * index, index }
     }
 
-    const noAssetsComponent = () => {
-        if (noAssets?.Component) {
-            return <noAssets.Component/>
-        }
-        return <NoAssets>{noAssetsText}</NoAssets>
-    }
+    const noAssetsComponent = () => <noAssets.Component />
 
-    /** Rendering List of Memo Items */
     return (
         <FlatList
             data={data}
@@ -121,7 +110,7 @@ export const AssetsSelectorList = ({
             initialNumToRender={50}
             getItemLayout={_getItemLayout}
             renderItem={_renderItem}
-            keyExtractor={item => item.id}
+            keyExtractor={(item) => item.id}
             extraData={selectedItems}
             onEndReached={() => getMoreAssets()}
             onEndReachedThreshold={0.5}
@@ -130,16 +119,9 @@ export const AssetsSelectorList = ({
     )
 }
 
-/** Styles **/
 const Image = styled.Image`
     width: 100%;
     height: 100%;
-`
-const NoAssets = styled.Text`
-    padding: 10px;
-    font-size: 16px;
-    color: black;
-    text-align: center;
 `
 
 const MediaTypeVideo = styled.View<{ margin: number }>`

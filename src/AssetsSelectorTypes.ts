@@ -1,13 +1,12 @@
 import React, { JSXElementConstructor } from 'react'
 import { Asset, MediaTypeValue } from 'expo-media-library'
+import { StyleProp, TextStyle, ViewStyle } from 'react-native'
 
 export interface IAssetSelectorProps {
     options?: OptionsType
 }
 
-declare const AssetsSelector:React.FC<IAssetSelectorProps>
-
-export default AssetsSelector
+declare const AssetsSelector: React.FC<IAssetSelectorProps>
 
 export interface IComponentItem {
     id: string
@@ -32,18 +31,18 @@ export type PagedInfo = {
 
 export type OptionsType = {
     assetsType: MediaTypeValue[] | MediaTypeValue
-    noAssetsText: string
     maxSelections: number
     margin: number
     portraitCols: number
     landscapeCols: number
     widgetWidth: number
-    widgetBgColor:string
+    widgetBgColor: string
     videoIcon: VideoIcon
     selectedIcon: SelectedIcon
     defaultTopNavigator?: DefaultTopNavOptions
     CustomTopNavigator?: CustomTopNavigator
-    noAssets?:NoAssets
+    noAssets: NoAssets
+    onError?: () => void
 }
 
 export interface ITopNavProps {
@@ -51,11 +50,9 @@ export interface ITopNavProps {
     backText: string
     finishText: string
     onFinish: () => void
-    fontColor: string
-    bgColor: string
-    midTextColor: string
     backFunction?: () => void
-    doneFunction?: () => void
+    textStyle: StyleProp<TextStyle>
+    buttonStyle: StyleProp<ViewStyle>
 }
 
 export type CustomTopNavigator = {
@@ -71,7 +68,7 @@ export type VideoIcon = {
 }
 
 export type NoAssets = {
-    Component: JSXElementConstructor<any> | null
+    Component: JSXElementConstructor<any>
 }
 
 /** @param bg  { string } - Should be a valid Hex color*/
@@ -84,18 +81,19 @@ export type SelectedIcon = {
 }
 
 export type DefaultTopNavOptions = {
-    continueText:string
+    continueText: string
     goBackText: string
-    buttonBgColor:string
-    buttonTextColor:string
-    midTextColor:string
+    buttonBgColor?: string
+    buttonTextColor?: string
+    midTextColor?: string
     backFunction: () => void
     doneFunction: (data: any) => void
+    textStyle: StyleProp<TextStyle>
+    buttonStyle: StyleProp<ViewStyle>
 }
 
 export type IComponentItems = {
     data: Asset[]
-    noAssetsText:string
     margin: number
     cols: number
     screen: number
@@ -104,5 +102,7 @@ export type IComponentItems = {
     getMoreAssets: () => void
     selectedIcon: SelectedIcon
     videoIcon: VideoIcon
-    noAssets?: NoAssets | null
+    noAssets: NoAssets
 }
+
+export default AssetsSelector
