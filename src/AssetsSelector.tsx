@@ -98,7 +98,7 @@ const AssetsSelector = ({
                     })
                     return setItems([...assetItems, ...newAssets])
                 })
-                .catch((err) => (onError ? onError() : null))
+                .catch( err => onError && onError(err) )
         },
         [assetItems, permissions.hasCameraPermission]
     )
@@ -109,8 +109,9 @@ const AssetsSelector = ({
         )
 
         const { status: CAMERA_ROLL }: any = await Permissions.askAsync(
-            Permissions.CAMERA_ROLL
+            Permissions.MEDIA_LIBRARY
         )
+
         setPermissions({
             hasCameraPermission: CAMERA === 'granted',
             hasCameraRollPermission: CAMERA_ROLL === 'granted',

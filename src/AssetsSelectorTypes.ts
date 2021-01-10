@@ -42,7 +42,7 @@ export type OptionsType = {
     defaultTopNavigator?: DefaultTopNavOptions
     CustomTopNavigator?: CustomTopNavigator
     noAssets: NoAssets
-    onError?: () => void
+    onError?: (err: any) => void
 }
 
 export interface ITopNavProps {

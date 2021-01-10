@@ -11,6 +11,9 @@
 ### 🎉 New features
 -----------------------------------------
 
+#### 1.2.0 — 2021-01-10
+-  Update dependencies to support expo 40
+
 #### 1.1.0 — 2020-06-12
 
 -  Add Style prop to style DefaultNavigator.
