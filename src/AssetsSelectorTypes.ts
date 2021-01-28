@@ -13,6 +13,8 @@ export interface IComponentItem {
     cols: number
     screen: number
     image: string
+    resize: Resize
+    base64: boolean
     margin: number
     selectedIndex: number
     onClick: (id: string) => void
@@ -32,6 +34,8 @@ export type PagedInfo = {
 export type OptionsType = {
     assetsType: MediaTypeValue[] | MediaTypeValue
     maxSelections: number
+    base64: boolean
+    resize: Resize
     margin: number
     portraitCols: number
     landscapeCols: number
@@ -53,6 +57,12 @@ export interface ITopNavProps {
     backFunction?: () => void
     textStyle: StyleProp<TextStyle>
     buttonStyle: StyleProp<ViewStyle>
+}
+
+export interface Resize {
+    Component: JSXElementConstructor<any> | null
+    width: number
+    height: number
 }
 
 export type CustomTopNavigator = {
@@ -86,6 +96,7 @@ export type DefaultTopNavOptions = {
     buttonBgColor?: string
     buttonTextColor?: string
     midTextColor?: string
+    base64?: boolean
     backFunction: () => void
     doneFunction: (data: any) => void
     textStyle: StyleProp<TextStyle>

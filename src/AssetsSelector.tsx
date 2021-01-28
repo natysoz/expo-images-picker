@@ -5,6 +5,7 @@ import * as Permissions from 'expo-permissions'
 import { Asset, AssetsOptions, getAssetsAsync } from 'expo-media-library'
 import { AssetsSelectorList } from './AssetsSelectorList'
 import { DefaultTopNavigator } from './DefaultTopNavigator'
+import * as ImageManipulator from 'expo-image-manipulator';
 
 import {
     IAssetSelectorProps,
@@ -15,6 +16,12 @@ import {
 const defaultOptions: OptionsType = {
     assetsType: ['video', 'photo'],
     maxSelections: 5,
+    resize: {
+    Component: null,
+    width: 100,
+    height: 100
+    },
+    base64: false,
     margin: 2,
     portraitCols: 4,
     landscapeCols: 6,
@@ -49,6 +56,8 @@ const AssetsSelector = ({
     const {
         assetsType,
         maxSelections,
+        resize,
+        base64,
         margin,
         portraitCols,
         landscapeCols,
@@ -165,8 +174,22 @@ const AssetsSelector = ({
                         selectedItems.indexOf(a.id) -
                         selectedItems.indexOf(b.id)
                 ),
-        [selectedItems]
+            [selectedItems]
+        
+
     )
+
+    async function modifyAssets () {
+        const items = await prepareResponse
+        const modItems = items.map(async (item) => {
+            await ImageManipulator.manipulateAsync(
+            item.uri,
+            [{ resize: resize}],
+            { compress: 1, base64: base64}
+          )
+      })
+        return modItems
+    } 
 
     return (
         <Screen bgColor={widgetBgColor}>
@@ -189,7 +212,7 @@ const AssetsSelector = ({
                     selected={selectedItems.length}
                     backFunction={() => defaultTopNavigator.backFunction()}
                     onFinish={() =>
-                        defaultTopNavigator.doneFunction(prepareResponse())
+                        defaultTopNavigator.doneFunction(modifyAssets())
                     }
                 />
             )}
