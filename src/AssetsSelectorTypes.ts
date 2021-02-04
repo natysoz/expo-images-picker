@@ -29,14 +29,33 @@ export type PagedInfo = {
     totalCount: number
 }
 
+type SaveTypes = 'jpeg' | 'png'
+
+/**
+ * @param base64 - save manipulation results into base64 String.
+ * @param compress - A value in range 0.0 - 1.0 specifying compression level of the result image. 1 means no compression (highest quality) and 0 the highest compression.
+ * @param width - max width of the manipulation image.
+ * @param height - max height of the manipulation image.
+ * @param saveTo - can be "jpeg" or "png".
+ */
+export type ManipulateOptions = {
+    width?: number
+    height?: number
+    compress?: number
+    base64?: boolean
+    saveTo?: SaveTypes
+}
+
 export type OptionsType = {
-    assetsType: MediaTypeValue[] | MediaTypeValue
+    manipulate?: ManipulateOptions
+    assetsType: MediaTypeValue[]
     maxSelections: number
     margin: number
     portraitCols: number
     landscapeCols: number
     widgetWidth: number
     widgetBgColor: string
+    spinnerColor: string
     videoIcon: VideoIcon
     selectedIcon: SelectedIcon
     defaultTopNavigator?: DefaultTopNavOptions

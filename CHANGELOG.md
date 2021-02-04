@@ -4,12 +4,19 @@
 ### 🛠 Breaking changes
 -----------------------------------------
 
-#### 1.1.0 — 2020-06-12
+#### 1.3.0 — 2021-02-04
+- Add spinnerColor attribute
 
+#### 1.1.0 — 2020-06-12
 - Removed ['buttonBgColor','buttonTextColor','midTextColor'] props from DefaultNavigator
 
 ### 🎉 New features
 -----------------------------------------
+
+#### 1.3.0 — 2021-02-04
+-  Add Resize , Compress and Base64 Support
+-  Add Expo Image Manipulator
+-  Add Spinner component shows while Manipulating images.
 
 #### 1.2.0 — 2021-01-10
 -  Update dependencies to support expo 40

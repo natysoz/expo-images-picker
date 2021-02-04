@@ -5,6 +5,8 @@ For users who use React native and managed workflow + Styled Components.
 
 [MediaLibrary](https://docs.expo.io/versions/latest/sdk/media-library).
 
+[Image-manipulator](https://docs.expo.io/versions/v40.0.0/sdk/imagemanipulator/).
+
 [Permissions](https://docs.expo.io/versions/latest/sdk/permissions)
 
 [styled-components](https://github.com/styled-components)
@@ -50,6 +52,12 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
     ```js
     <AssetsSelector
         options={{
+            manipulate: {
+              width: 512,
+              compress: 0.7,
+              base64: false,
+              saveTo: 'jpeg',
+            },
             assetsType: ['photo', 'video'],
             maxSelections: 5,
             margin: 3,
@@ -58,6 +66,7 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
             widgetWidth: 100,
             widgetBgColor: bgColor,
             selectedBgColor: mainColor,
+            spinnerColor: mainColor,
             videoIcon: {
                 Component: Ionicons,
                 iconName: 'ios-videocam',
@@ -103,6 +112,25 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
 -   `widgetWidth` Widget container width , by default `100`.
 
 -   `widgetBgColor` Widget background color expect to get Hex color.
+    
+-   `spinnerColor` Loading spinner color.
+
+---
+
+-   You can Resize , Compress and Base64 your assets with the following:
+
+`manipulate` works only with "photo" Assets.
+
+-   `width`  Manipulate image width (optional).
+-   `height` Manipulate image height (optional).
+-   `compress` Compress 0.1 Super low quality 1.0 leave as is (high quality).
+-   `base64` Will add an extra field on response with an image as Base64 string.
+-   `saveTo` Manipulate File extension , can be "jpeg" or "png".
+
+-   `*` All fields are optional , in order to resize and keep images Ratio its
+    recommend sending only width or height and it will resize using this axis only.
+---
+
 
 ---
 
