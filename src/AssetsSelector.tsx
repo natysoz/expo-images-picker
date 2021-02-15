@@ -139,13 +139,8 @@ const AssetsSelector = ({
     )
 
     const getCameraPermissions = useCallback(async () => {
-        const { status: CAMERA }: any = await Permissions.askAsync(
-            Permissions.CAMERA
-        )
-
-        const { status: CAMERA_ROLL }: any = await Permissions.askAsync(
-            Permissions.MEDIA_LIBRARY
-        )
+        const { status: CAMERA }: any = await Permissions.askAsync("camera");
+        const { status: CAMERA_ROLL }: any = await Permissions.askAsync("cameraRoll");
 
         setPermissions({
             hasCameraPermission: CAMERA === 'granted',
