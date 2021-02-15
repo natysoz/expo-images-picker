@@ -21,7 +21,7 @@
   "dependencies": {
     "expo-image-manipulator": "^9.0.0",
     "expo-media-library": "~10.0.0",
-    "expo-permissions": "~10.0.0",
+    "expo-permissions": "^11.0.0",
     "styled-components": "^5.1.1"
   },
   "devDependencies": {
