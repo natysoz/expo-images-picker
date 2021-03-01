@@ -67,6 +67,7 @@ export type OptionsType = {
 export interface ITopNavProps {
     selected: number
     backText: string
+    selectedText: string
     finishText: string
     onFinish: () => void
     backFunction?: () => void
