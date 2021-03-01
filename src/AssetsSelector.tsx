@@ -303,6 +303,7 @@ const AssetsSelector = ({
             )}
             {defaultTopNavigator && (
                 <DefaultTopNavigator
+                    selectedText={defaultTopNavigator.selectedText}
                     textStyle={defaultTopNavigator.textStyle}
                     buttonStyle={defaultTopNavigator.buttonStyle}
                     backText={defaultTopNavigator.goBackText}

@@ -102,6 +102,7 @@ export type SelectedIcon = {
 
 export type DefaultTopNavOptions = {
     continueText: string
+    selectedText: string
     goBackText: string
     buttonBgColor?: string
     buttonTextColor?: string
