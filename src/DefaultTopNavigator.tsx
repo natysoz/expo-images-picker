@@ -19,7 +19,7 @@ export const DefaultTopNavigator = ({
         </SimpleButton>
 
         <Text style={textStyle}>
-            {selected} {selectedText}{' '}
+            {selected} {selectedText}
         </Text>
 
         <SimpleButton style={buttonStyle} onPress={onFinish}>

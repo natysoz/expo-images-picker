@@ -4,6 +4,9 @@
 ### 🛠 Breaking changes
 -----------------------------------------
 
+#### 1.3.1 — 2021-02-04
+- now `options` and all fields become mandatory field.
+
 #### 1.3.0 — 2021-02-04
 - Add spinnerColor attribute
 
@@ -12,6 +15,9 @@
 
 ### 🎉 New features
 -----------------------------------------
+
+#### 1.3.1 — 2021-04-12
+-  Add selectedText to default navigator
 
 #### 1.3.0 — 2021-02-04
 -  Add Resize , Compress and Base64 Support

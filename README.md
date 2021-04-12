@@ -82,6 +82,7 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
                 size: 20,
             },
             defaultTopNavigator: {
+                selectedText: 'Selected',
                 continueText: 'Finish',
                 goBackText: 'Back',
                 buttonStyle: validViewStyleObject,
@@ -95,9 +96,10 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
         }}
     />
     ```
+   
+Note that using `manipulate` might result with crash or slow loading times on older phones.
 
 ##[📚 Params]
-
 ### Options:
 
 -   `assetsType` Could be 'video' , 'photo' or an array with both ['photo','video'].
@@ -129,7 +131,7 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
 -   `saveTo` Manipulate File extension , can be "jpeg" or "png".
 
 -   `*` All fields are optional , in order to resize and keep images Ratio its
-    recommend sending only width or height and it will resize using this axis only.
+    recommend sending only width or height, and it will resize using this axis only.
 ---
 
 
