@@ -11,13 +11,16 @@ export const DefaultTopNavigator = ({
     onFinish,
     textStyle,
     buttonStyle,
+    selectedText,
 }: ITopNavProps) => (
     <Navigator>
         <SimpleButton style={buttonStyle} onPress={backFunction}>
             <Text style={textStyle}>{backText}</Text>
         </SimpleButton>
 
-        <Text style={textStyle}>{selected} Selected </Text>
+        <Text style={textStyle}>
+            {selected} {selectedText}{' '}
+        </Text>
 
         <SimpleButton style={buttonStyle} onPress={onFinish}>
             <Text style={textStyle}>{finishText}</Text>

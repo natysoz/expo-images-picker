@@ -36,7 +36,7 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
     ```bash
     $ npm install --save expo-images-picker
     ```
-    or
+   or
     ```bash
     $ yarn add expo-images-picker
     ```
@@ -52,12 +52,13 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
     ```js
     <AssetsSelector
         options={{
-            manipulate: {
+            /* Add only when u want to Manipulate Assets.
+              manipulate: {
               width: 512,
               compress: 0.7,
               base64: false,
               saveTo: 'jpeg',
-            },
+            },*/
             assetsType: ['photo', 'video'],
             maxSelections: 5,
             margin: 3,
@@ -112,7 +113,7 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
 -   `widgetWidth` Widget container width , by default `100`.
 
 -   `widgetBgColor` Widget background color expect to get Hex color.
-    
+
 -   `spinnerColor` Loading spinner color.
 
 ---
