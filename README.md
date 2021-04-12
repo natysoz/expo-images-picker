@@ -85,6 +85,7 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
                 selectedText: 'Selected',
                 continueText: 'Finish',
                 goBackText: 'Back',
+                midTextColor: 'red',
                 buttonStyle: validViewStyleObject,
                 textStyle: validTextStyleObject,
                 backFunction: goBack,
@@ -96,8 +97,6 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
         }}
     />
     ```
-   
-Note that using `manipulate` might result with crash or slow loading times on older phones.
 
 ##[📚 Params]
 ### Options:
@@ -120,7 +119,9 @@ Note that using `manipulate` might result with crash or slow loading times on ol
 
 ---
 
--   You can Resize , Compress and Base64 your assets with the following:
+-   You can Resize , Compress and Base64 your assets with the following
+    
+    **Note that using `manipulate` might result with crash or slow loading times on older phones.
 
 `manipulate` works only with "photo" Assets.
 
@@ -153,8 +154,9 @@ Note that using `manipulate` might result with crash or slow loading times on ol
 
 -   `continueText` Text for next Button , by default `Continue`.
 -   `goBackText` Text for Back Button , by default `Back`.
--   `textStyle` Text Style Object.
--   `buttonStyle` View Style Object.
+-   `midTextColor` Middle text override color default as `black`.
+-   `buttonTextStyle` Text Style Object , design the text inside the buttons.
+-   `buttonStyle` View Style Object, design the button itself.
 -   `backFunction`  Send in a function to go back to your screen.
 -   `doneFunction`  Send in a function to go back and send the returned data.
 

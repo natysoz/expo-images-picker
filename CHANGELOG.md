@@ -4,6 +4,19 @@
 ### 🛠 Breaking changes
 -----------------------------------------
 
+#### 1.3.2 — 2021-04-12
+- defaultTopNavigator props changed 
+
+you now have `buttonTextStyle` and  `buttonStyle` and `midTextColor`
+
+-buttonTextStyle - send style to design the text inside the button
+-buttonStyle - send style to design the button itself
+-midTextColor - send color to override middle text color
+
+
+#### 1.3.1 — 2021-02-04
+- add option to override selected text on default top navigator.
+
 #### 1.3.1 — 2021-02-04
 - now `options` and all fields become mandatory field.
 

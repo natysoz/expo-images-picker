@@ -70,8 +70,9 @@ export interface ITopNavProps {
     selected: number
     backText: string
     finishText: string
+    midTextColor: string
     selectedText: string
-    textStyle: StyleProp<TextStyle>
+    buttonTextStyle: StyleProp<TextStyle>
     buttonStyle: StyleProp<ViewStyle>
     onFinish(): void
     backFunction?(): void
@@ -106,7 +107,7 @@ export type DefaultTopNavOptions = {
     buttonBgColor?: string
     buttonTextColor?: string
     midTextColor?: string
-    textStyle: StyleProp<TextStyle>
+    buttonTextStyle: StyleProp<TextStyle>
     buttonStyle: StyleProp<ViewStyle>
     backFunction(): void
     doneFunction(data: any): void

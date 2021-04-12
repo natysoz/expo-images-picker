@@ -8,22 +8,23 @@ export const DefaultTopNavigator = ({
     backText,
     selected,
     backFunction,
+    midTextColor,
     onFinish,
-    textStyle,
+    buttonTextStyle,
     buttonStyle,
     selectedText,
 }: ITopNavProps) => (
     <Navigator>
         <SimpleButton style={buttonStyle} onPress={backFunction}>
-            <Text style={textStyle}>{backText}</Text>
+            <Text style={buttonTextStyle}>{backText}</Text>
         </SimpleButton>
 
-        <Text style={textStyle}>
+        <Text style={{ color: midTextColor }}>
             {selected} {selectedText}
         </Text>
 
         <SimpleButton style={buttonStyle} onPress={onFinish}>
-            <Text style={textStyle}>{finishText}</Text>
+            <Text style={buttonTextStyle}>{finishText}</Text>
         </SimpleButton>
     </Navigator>
 )

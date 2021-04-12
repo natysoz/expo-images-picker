@@ -245,8 +245,9 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
             {defaultTopNavigator && (
                 <DefaultTopNavigator
                     selectedText={defaultTopNavigator.selectedText}
-                    textStyle={defaultTopNavigator.textStyle}
+                    buttonTextStyle={defaultTopNavigator.buttonTextStyle}
                     buttonStyle={defaultTopNavigator.buttonStyle}
+                    midTextColor={defaultTopNavigator.midTextColor || 'black'}
                     backText={defaultTopNavigator.goBackText}
                     finishText={defaultTopNavigator.continueText}
                     selected={selectedItems.length}
