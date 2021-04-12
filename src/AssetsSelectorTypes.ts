@@ -2,11 +2,22 @@ import React, { JSXElementConstructor } from 'react'
 import { Asset, MediaTypeValue } from 'expo-media-library'
 import { StyleProp, TextStyle, ViewStyle } from 'react-native'
 
-export interface IAssetSelectorProps {
-    options?: OptionsType
+export interface IAssetPickerOptions {
+    options: OptionsType
 }
 
-declare const AssetsSelector: React.FC<IAssetSelectorProps>
+type SaveTypes = 'jpeg' | 'png'
+
+declare const AssetsSelector: React.FC<IAssetPickerOptions>
+
+export interface IScreen {
+    bgColor: string
+}
+
+export interface IWidget {
+    widgetWidth: number
+    bgColor: string
+}
 
 export interface IComponentItem {
     id: string
@@ -15,10 +26,10 @@ export interface IComponentItem {
     image: string
     margin: number
     selectedIndex: number
-    onClick: (id: string) => void
     mediaType: MediaTypeValue
     selectedIcon: SelectedIcon
     videoIcon: VideoIcon
+    onClick(id: string): void
 }
 
 export type PagedInfo = {
@@ -29,15 +40,6 @@ export type PagedInfo = {
     totalCount: number
 }
 
-type SaveTypes = 'jpeg' | 'png'
-
-/**
- * @param base64 - save manipulation results into base64 String.
- * @param compress - A value in range 0.0 - 1.0 specifying compression level of the result image. 1 means no compression (highest quality) and 0 the highest compression.
- * @param width - max width of the manipulation image.
- * @param height - max height of the manipulation image.
- * @param saveTo - can be "jpeg" or "png".
- */
 export type ManipulateOptions = {
     width?: number
     height?: number
@@ -61,17 +63,18 @@ export type OptionsType = {
     defaultTopNavigator?: DefaultTopNavOptions
     CustomTopNavigator?: CustomTopNavigator
     noAssets: NoAssets
-    onError?: (err: any) => void
+    onError?(err: any): void
 }
 
 export interface ITopNavProps {
     selected: number
     backText: string
     finishText: string
-    onFinish: () => void
-    backFunction?: () => void
+    selectedText: string
     textStyle: StyleProp<TextStyle>
     buttonStyle: StyleProp<ViewStyle>
+    onFinish(): void
+    backFunction?(): void
 }
 
 export type CustomTopNavigator = {
@@ -86,11 +89,8 @@ export type VideoIcon = {
     size: number
 }
 
-export type NoAssets = {
-    Component: JSXElementConstructor<any>
-}
+export type NoAssets = JSXElementConstructor<React.FC> | null
 
-/** @param bg  { string } - Should be a valid Hex color*/
 export type SelectedIcon = {
     Component: JSXElementConstructor<any> | null
     iconName: string
@@ -102,13 +102,14 @@ export type SelectedIcon = {
 export type DefaultTopNavOptions = {
     continueText: string
     goBackText: string
+    selectedText: string
     buttonBgColor?: string
     buttonTextColor?: string
     midTextColor?: string
-    backFunction: () => void
-    doneFunction: (data: any) => void
     textStyle: StyleProp<TextStyle>
     buttonStyle: StyleProp<ViewStyle>
+    backFunction(): void
+    doneFunction(data: any): void
 }
 
 export type IComponentItems = {
@@ -117,11 +118,11 @@ export type IComponentItems = {
     cols: number
     screen: number
     selectedItems: string[]
-    onClick: (id: string) => void
-    getMoreAssets: () => void
     selectedIcon: SelectedIcon
     videoIcon: VideoIcon
     noAssets: NoAssets
+    onClick(id: string): void
+    getMoreAssets(): void
 }
 
 export default AssetsSelector

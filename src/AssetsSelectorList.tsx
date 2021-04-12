@@ -101,8 +101,6 @@ export const AssetsSelectorList = ({
         return { length, offset: length * index, index }
     }
 
-    const noAssetsComponent = () => <noAssets.Component />
-
     return (
         <FlatList
             data={data}
@@ -114,7 +112,7 @@ export const AssetsSelectorList = ({
             extraData={selectedItems}
             onEndReached={() => getMoreAssets()}
             onEndReachedThreshold={0.5}
-            ListEmptyComponent={noAssetsComponent}
+            ListEmptyComponent={noAssets}
         />
     )
 }

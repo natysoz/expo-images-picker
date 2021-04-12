@@ -7,74 +7,15 @@ import { AssetsSelectorList } from './AssetsSelectorList'
 import { DefaultTopNavigator } from './DefaultTopNavigator'
 import * as ImageManipulator from 'expo-image-manipulator'
 import {
-    IAssetSelectorProps,
+    IAssetPickerOptions,
+    IScreen,
+    IWidget,
     ManipulateOptions,
-    OptionsType,
     PagedInfo,
 } from './AssetsSelectorTypes'
 import { ImageResult } from 'expo-image-manipulator'
 
-const SpinnerStyle = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    horizontal: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 10,
-    },
-})
-
-const Spinner: FC<{ color: string }> = ({ color }) => {
-    return (
-        <View style={[SpinnerStyle.container, SpinnerStyle.horizontal]}>
-            <ActivityIndicator size="large" color={color} />
-        </View>
-    )
-}
-
-const defaultOptions: OptionsType = {
-    manipulate: {
-        width: 512,
-        compress: 1,
-        base64: false,
-        saveTo: 'jpeg',
-    },
-    spinnerColor: 'black',
-    assetsType: ['video', 'photo'],
-    maxSelections: 5,
-    margin: 2,
-    portraitCols: 4,
-    landscapeCols: 6,
-    widgetWidth: 100,
-    widgetBgColor: 'white',
-    videoIcon: {
-        Component: null,
-        iconName: '',
-        color: 'white',
-        size: 20,
-    },
-    selectedIcon: {
-        Component: null,
-        iconName: 'ios-checkmark-circle-outline',
-        color: 'white',
-        bg: '#ffffff50',
-        size: 28,
-    },
-    CustomTopNavigator: {
-        Component: null,
-        props: {},
-    },
-    noAssets: {
-        Component: () => <View />,
-    },
-    onError: () => {},
-}
-
-const AssetsSelector = ({
-    options = defaultOptions,
-}: IAssetSelectorProps): JSX.Element => {
+const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
     const {
         manipulate,
         assetsType,
@@ -143,13 +84,13 @@ const AssetsSelector = ({
             Permissions.CAMERA
         )
 
-        const { status: CAMERA_ROLL }: any = await Permissions.askAsync(
+        const { status: MEDIA_LIBRARY }: any = await Permissions.askAsync(
             Permissions.MEDIA_LIBRARY
         )
 
         setPermissions({
             hasCameraPermission: CAMERA === 'granted',
-            hasCameraRollPermission: CAMERA_ROLL === 'granted',
+            hasCameraRollPermission: MEDIA_LIBRARY === 'granted',
         })
     }, [])
 
@@ -303,6 +244,7 @@ const AssetsSelector = ({
             )}
             {defaultTopNavigator && (
                 <DefaultTopNavigator
+                    selectedText={defaultTopNavigator.selectedText}
                     textStyle={defaultTopNavigator.textStyle}
                     buttonStyle={defaultTopNavigator.buttonStyle}
                     backText={defaultTopNavigator.goBackText}
@@ -340,12 +282,32 @@ async function asyncForEach(array: Asset[], callback: any) {
     }
 }
 
-const Screen = styled.View<{ bgColor: string }>`
+const SpinnerStyle = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10,
+    },
+})
+
+const Spinner: FC<{ color: string }> = ({ color }) => {
+    return (
+        <View style={[SpinnerStyle.container, SpinnerStyle.horizontal]}>
+            <ActivityIndicator size="large" color={color} />
+        </View>
+    )
+}
+
+const Screen = styled.View<IScreen>`
     background-color: ${({ bgColor }) => bgColor};
     flex: 1;
 `
 
-const Widget = styled.View<{ widgetWidth: number; bgColor: string }>`
+const Widget = styled.View<IWidget>`
     margin: 0 auto;
     flex-direction: row;
     justify-content: space-between;
