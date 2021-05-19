@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { Dimensions, View, ActivityIndicator, StyleSheet } from 'react-native'
 import styled from 'styled-components/native'
-import * as MediaLibrary from 'expo-media-library';
+import * as MediaLibrary from 'expo-media-library'
 import { Asset, AssetsOptions, getAssetsAsync } from 'expo-media-library'
 import { AssetsSelectorList } from './AssetsSelectorList'
 import { DefaultTopNavigator } from './DefaultTopNavigator'
