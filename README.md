@@ -91,9 +91,7 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
                 backFunction: goBack,
                 doneFunction: (data) => onDone(data),
             },
-            noAssets: {
-                Component: CustomNoAssetsComponent,
-            },
+            noAssets: CustomNoAssetsComponent,
         }}
     />
     ```

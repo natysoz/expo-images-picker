@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { Dimensions, View, ActivityIndicator, StyleSheet } from 'react-native'
 import styled from 'styled-components/native'
-import * as Permissions from 'expo-permissions'
+import * as MediaLibrary from 'expo-media-library'
 import { Asset, AssetsOptions, getAssetsAsync } from 'expo-media-library'
 import { AssetsSelectorList } from './AssetsSelectorList'
 import { DefaultTopNavigator } from './DefaultTopNavigator'
@@ -43,8 +43,7 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
     const [selectedItems, setSelectedItems] = useState<string[]>([])
 
     const [permissions, setPermissions] = useState({
-        hasCameraPermission: false,
-        hasCameraRollPermission: false,
+        hasMediaLibraryPermission: false,
     })
 
     const [availableOptions, setAvailableOptions] = useState<PagedInfo>({
@@ -76,21 +75,14 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
                 })
                 .catch((err) => onError && onError(err))
         },
-        [assetItems, permissions.hasCameraPermission]
+        [assetItems]
     )
 
-    const getCameraPermissions = useCallback(async () => {
-        const { status: CAMERA }: any = await Permissions.askAsync(
-            Permissions.CAMERA
-        )
-
-        const { status: MEDIA_LIBRARY }: any = await Permissions.askAsync(
-            Permissions.MEDIA_LIBRARY
-        )
+    const getMediaLibraryPermission = useCallback(async () => {
+        const { status: MEDIA_LIBRARY }: any = await MediaLibrary.requestPermissionsAsync()
 
         setPermissions({
-            hasCameraPermission: CAMERA === 'granted',
-            hasCameraRollPermission: MEDIA_LIBRARY === 'granted',
+            hasMediaLibraryPermission: MEDIA_LIBRARY === 'granted'
         })
     }, [])
 
@@ -109,8 +101,7 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
         getAssets()
     }, [
         assetsType,
-        permissions.hasCameraPermission,
-        permissions.hasCameraRollPermission,
+        permissions.hasMediaLibraryPermission,
     ])
 
     const getAssets = () => {
@@ -125,9 +116,9 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
                     params.after = availableOptions.after
                 if (!availableOptions.hasNextPage) return
 
-                return permissions.hasCameraRollPermission
+                return permissions.hasMediaLibraryPermission
                     ? loadAssets(params)
-                    : getCameraPermissions()
+                    : getMediaLibraryPermission()
             }
         } catch (err) {
             // need to add component that display where there is an error
