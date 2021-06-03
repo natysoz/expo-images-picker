@@ -1,8 +1,7 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { Dimensions, View, ActivityIndicator, StyleSheet } from 'react-native'
 import styled from 'styled-components/native'
-import * as Permissions from 'expo-permissions'
-import { Asset, AssetsOptions, getAssetsAsync } from 'expo-media-library'
+import { Asset, AssetsOptions, getAssetsAsync, getPermissionsAsync } from 'expo-media-library'
 import { AssetsSelectorList } from './AssetsSelectorList'
 import { DefaultTopNavigator } from './DefaultTopNavigator'
 import * as ImageManipulator from 'expo-image-manipulator'
@@ -101,10 +100,7 @@ const AssetsSelector = ({
 
     const [selectedItems, setSelectedItems] = useState<string[]>([])
 
-    const [permissions, setPermissions] = useState({
-        hasCameraPermission: false,
-        hasCameraRollPermission: false,
-    })
+    const [hasPermissions, setHasPermissions] = useState(false);
 
     const [availableOptions, setAvailableOptions] = useState<PagedInfo>({
         first: 500,
@@ -135,22 +131,12 @@ const AssetsSelector = ({
                 })
                 .catch((err) => onError && onError(err))
         },
-        [assetItems, permissions.hasCameraPermission]
+        [assetItems, hasPermissions]
     )
 
-    const getCameraPermissions = useCallback(async () => {
-        const { status: CAMERA }: any = await Permissions.askAsync(
-            Permissions.CAMERA
-        )
-
-        const { status: CAMERA_ROLL }: any = await Permissions.askAsync(
-            Permissions.MEDIA_LIBRARY
-        )
-
-        setPermissions({
-            hasCameraPermission: CAMERA === 'granted',
-            hasCameraRollPermission: CAMERA_ROLL === 'granted',
-        })
+    const getPermissions = useCallback(async () => {
+        const {status} = await getPermissionsAsync();
+        setHasPermissions(status === 'granted')
     }, [])
 
     const onClickUseCallBack = useCallback((id: string) => {
@@ -168,8 +154,7 @@ const AssetsSelector = ({
         getAssets()
     }, [
         assetsType,
-        permissions.hasCameraPermission,
-        permissions.hasCameraRollPermission,
+        hasPermissions,
     ])
 
     const getAssets = () => {
@@ -184,9 +169,9 @@ const AssetsSelector = ({
                     params.after = availableOptions.after
                 if (!availableOptions.hasNextPage) return
 
-                return permissions.hasCameraRollPermission
+                return hasPermissions
                     ? loadAssets(params)
-                    : getCameraPermissions()
+                    : getPermissions()
             }
         } catch (err) {
             // need to add component that display where there is an error
