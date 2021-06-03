@@ -4,6 +4,10 @@
 ### 🛠 Breaking changes
 -----------------------------------------
 
+#### 1.4.0 — 2021-06-03
+- expo permissions package removed.
+- update version for some packages to stay updated.
+
 #### 1.3.2 — 2021-04-12
 - defaultTopNavigator props changed 
 
