@@ -32,6 +32,8 @@ you now have `buttonTextStyle` and  `buttonStyle` and `midTextColor`
 
 ### 🎉 New features
 -----------------------------------------
+#### 1.4.1 — 2021-04-12
+-  Add `initialLoad` to define how many images to load first time.
 
 #### 1.3.1 — 2021-04-12
 -  Add selectedText to default navigator
@@ -105,8 +107,6 @@ Expo Media library is very buggy.
 
 ### Upcoming
 -----------------------------------------
-* Add the option to get images as Base64 string.
-* Add the option to resize images and get their local url on a device or Base64.
 
 
 

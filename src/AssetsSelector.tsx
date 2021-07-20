@@ -32,6 +32,7 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
         CustomTopNavigator,
         noAssets,
         onError,
+        initialLoad
     } = options
 
     const getScreen = () => Dimensions.get('screen')
@@ -98,17 +99,17 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
     }, [])
 
     useEffect(() => {
-        getAssets()
+        getAssets(initialLoad)
     }, [
         assetsType,
         permissions.hasMediaLibraryPermission,
     ])
 
-    const getAssets = () => {
+    const getAssets = (first:number = 100) => {
         try {
             if (availableOptions.hasNextPage) {
                 const params: AssetsOptions = {
-                    first: 200,
+                    first,
                     mediaType: assetsType,
                     sortBy: ['creationTime'],
                 }
