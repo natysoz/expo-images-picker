@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import { FlatList } from 'react-native'
 import { Asset } from 'expo-media-library'
 import styled from 'styled-components/native'
-import { IComponentItem, IComponentItems } from './AssetsSelectorTypes'
+import { ItemType, AssetListPropTypes } from './Types'
 
 const Item = ({
     id,
@@ -15,7 +15,7 @@ const Item = ({
     margin,
     selectedIcon,
     videoIcon,
-}: IComponentItem) => {
+}: ItemType) => {
     const handleClick = () => {
         onClick(id)
     }
@@ -30,7 +30,7 @@ const Item = ({
     } = videoIcon
 
     return (
-        <Block
+        <ItemContainer
             margin={margin}
             screen={screen}
             cols={cols}
@@ -60,13 +60,13 @@ const Item = ({
                 </Selected>
             )}
             <Image source={{ uri: image }} />
-        </Block>
+        </ItemContainer>
     )
 }
 
 const MemoizedAssetItem = memo(Item)
 
-export const AssetsSelectorList = ({
+export const AssetList = ({
     margin,
     data,
     selectedItems,
@@ -76,8 +76,7 @@ export const AssetsSelectorList = ({
     screen,
     selectedIcon,
     videoIcon,
-    noAssets,
-}: IComponentItems) => {
+}: AssetListPropTypes) => {
     const _renderItem = ({ item }: { item: Asset }) => (
         <MemoizedAssetItem
             id={item.id}
@@ -112,7 +111,6 @@ export const AssetsSelectorList = ({
             extraData={selectedItems}
             onEndReached={() => getMoreAssets()}
             onEndReachedThreshold={0.5}
-            ListEmptyComponent={noAssets}
         />
     )
 }
@@ -139,11 +137,11 @@ const Selected = styled.View<{ margin: number; selectionColor: string }>`
     height: 100%;
     z-index: 10;
     background-color: ${({ selectionColor }) =>
-        selectionColor ? selectionColor : '#8bc34a70'};
+        selectionColor ? selectionColor : '#B14AC370'};
     margin: ${({ margin }) => margin}px;
 `
 
-const Block = styled.TouchableOpacity<{
+const ItemContainer = styled.TouchableOpacity<{
     margin: number
     screen: number
     cols: number

@@ -2,44 +2,41 @@ import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { Dimensions, View, ActivityIndicator, StyleSheet } from 'react-native'
 import styled from 'styled-components/native'
 import * as MediaLibrary from 'expo-media-library'
-import { Asset, AssetsOptions, getAssetsAsync } from 'expo-media-library'
-import { AssetsSelectorList } from './AssetsSelectorList'
-import { DefaultTopNavigator } from './DefaultTopNavigator'
-import * as ImageManipulator from 'expo-image-manipulator'
 import {
-    IAssetPickerOptions,
+    Asset,
+    AssetsOptions,
+    getAssetsAsync,
+    getAssetInfoAsync,
+} from 'expo-media-library'
+import { AssetList } from './AssetList'
+import DefaultTopNavigator from './Navigator'
+import * as ImageManipulator from 'expo-image-manipulator'
+
+import {
+    AssetSelectorPropTypes,
+    IAssetSelectorError,
     IScreen,
     IWidget,
-    ManipulateOptions,
     PagedInfo,
-} from './AssetsSelectorTypes'
+    ResizeType,
+} from './Types'
 import { ImageResult } from 'expo-image-manipulator'
+import ErrorDisplay from './ErrorDisplay'
 
-const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
-    const {
-        manipulate,
-        assetsType,
-        maxSelections,
-        margin,
-        portraitCols,
-        landscapeCols,
-        widgetWidth,
-        widgetBgColor,
-        videoIcon,
-        selectedIcon,
-        spinnerColor,
-        defaultTopNavigator,
-        CustomTopNavigator,
-        noAssets,
-        onError,
-        initialLoad
-    } = options
-
+const AssetsSelector = ({
+    Resize,
+    Settings,
+    Errors,
+    Styles,
+    Navigator,
+    CustomNavigator,
+}: AssetSelectorPropTypes): JSX.Element => {
     const getScreen = () => Dimensions.get('screen')
 
     const { width, height } = useMemo(() => getScreen(), [])
 
-    const COLUMNS = height >= width ? portraitCols : landscapeCols
+    const COLUMNS =
+        height >= width ? Settings.portraitCols : Settings.landscapeCols
 
     const [selectedItems, setSelectedItems] = useState<string[]>([])
 
@@ -48,7 +45,7 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
     })
 
     const [availableOptions, setAvailableOptions] = useState<PagedInfo>({
-        first: 500,
+        first: 100,
         totalCount: 0,
         after: '',
         endCursor: '',
@@ -57,40 +54,77 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
 
     const [assetItems, setItems] = useState<Asset[]>([])
 
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setLoading] = useState(true)
 
-    // todo add state for errors and render error msg.
+    const [error, setError] = useState<{
+        hasError: boolean
+        errorType: IAssetSelectorError
+    }>({
+        hasError: false,
+        errorType: 'hasErrorWithPermissions',
+    })
 
     const loadAssets = useCallback(
-        (params: AssetsOptions) => {
+        async (params: AssetsOptions) => {
             getAssetsAsync(params)
                 .then(({ endCursor, assets, hasNextPage }) => {
+                    if (assets.length <= 0) {
+                        setLoading(false)
+                        return setError({
+                            hasError: true,
+                            errorType: 'hasNoAssets',
+                        })
+                    }
                     if (availableOptions.after === endCursor) return
-                    const newAssets = assets
                     setAvailableOptions({
                         ...availableOptions,
                         after: endCursor,
                         hasNextPage: hasNextPage,
                     })
-                    return setItems([...assetItems, ...newAssets])
+                    setLoading(false)
+                    return setItems([...assetItems, ...assets])
                 })
-                .catch((err) => onError && onError(err))
+                .catch(() => {
+                    setLoading(false)
+                    setError({
+                        hasError: true,
+                        errorType: 'hasErrorWithLoading',
+                    })
+                })
         },
         [assetItems]
     )
 
     const getMediaLibraryPermission = useCallback(async () => {
-        const { status: MEDIA_LIBRARY }: any = await MediaLibrary.requestPermissionsAsync()
-
-        setPermissions({
-            hasMediaLibraryPermission: MEDIA_LIBRARY === 'granted'
-        })
+        try {
+            const {
+                status: MEDIA_LIBRARY,
+            }: MediaLibrary.PermissionResponse = await MediaLibrary.requestPermissionsAsync()
+            if (MEDIA_LIBRARY !== 'granted') {
+                setLoading(false)
+                setError({
+                    hasError: true,
+                    errorType: 'hasErrorWithPermissions',
+                })
+            }
+            setPermissions({
+                hasMediaLibraryPermission: MEDIA_LIBRARY === 'granted',
+            })
+        } catch (err) {
+            setError({
+                hasError: true,
+                errorType: 'hasErrorWithPermissions',
+            })
+        }
     }, [])
 
     const onClickUseCallBack = useCallback((id: string) => {
         setSelectedItems((selectedItems) => {
             const alreadySelected = selectedItems.indexOf(id) >= 0
-            if (selectedItems.length >= maxSelections && !alreadySelected)
+            if (
+                selectedItems.length >= Settings.maxSelection &&
+                !alreadySelected
+            )
                 return selectedItems
             if (alreadySelected)
                 return selectedItems.filter((item) => item !== id)
@@ -99,18 +133,16 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
     }, [])
 
     useEffect(() => {
-        getAssets(initialLoad)
-    }, [
-        assetsType,
-        permissions.hasMediaLibraryPermission,
-    ])
+        Errors.onError?.()
+        getAssets(Settings.initialLoad)
+    }, [Settings.assetsType, permissions.hasMediaLibraryPermission])
 
-    const getAssets = (first:number = 100) => {
+    const getAssets = (first: number = 100) => {
         try {
             if (availableOptions.hasNextPage) {
                 const params: AssetsOptions = {
                     first,
-                    mediaType: assetsType,
+                    mediaType: Settings.assetsType,
                     sortBy: ['creationTime'],
                 }
                 if (availableOptions.after)
@@ -122,58 +154,56 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
                     : getMediaLibraryPermission()
             }
         } catch (err) {
-            // need to add component that display where there is an error
-            // show it when any error happen and wrap any place that can have
-            // err with try and catch block
+            setError({
+                hasError: true,
+                errorType: 'hasErrorWithLoading',
+            })
         }
     }
 
-    const resizeImages = async (
-        image: Asset,
-        manipulate: ManipulateOptions
-    ) => {
-        const { base64, width, height, saveTo, compress } = manipulate
-        const saveFormat =
-            saveTo === 'jpeg'
-                ? ImageManipulator.SaveFormat.JPEG
-                : ImageManipulator.SaveFormat.PNG
+    const resizeImages = async (image: Asset, manipulate: ResizeType) => {
+        try {
+            const { base64, width, height, saveTo, compress } = manipulate
+            const saveFormat = saveTo
+                ? saveTo === 'jpeg'
+                    ? ImageManipulator.SaveFormat.JPEG
+                    : ImageManipulator.SaveFormat.PNG
+                : ImageManipulator.SaveFormat.JPEG
 
-        let sizeOptions: any = {}
+            let sizeOptions: {
+                width?: number
+                height?: number
+            } = {
+                width,
+                height,
+            }
 
-        if (width && !height) {
-            sizeOptions.width = width
+            if (!width && !height) {
+                sizeOptions.width = image.width
+                sizeOptions.height = image.height
+            }
+            const options = [
+                {
+                    resize: JSON.parse(JSON.stringify(sizeOptions)),
+                },
+            ]
+            const format = {
+                base64,
+                compress,
+                format: saveFormat,
+            }
+            return await ImageManipulator.manipulateAsync(
+                image.uri,
+                options,
+                format
+            )
+        } catch (err) {
+            setError({
+                hasError: true,
+                errorType: 'hasErrorWithResizing',
+            })
+            return image
         }
-
-        if (height && !width) {
-            sizeOptions.height = height
-        }
-
-        if (width && height) {
-            sizeOptions.width = width
-            sizeOptions.height = height
-        }
-
-        if (!width && !height) {
-            sizeOptions.width = image.width
-            sizeOptions.height = image.height
-        }
-
-        const options = [
-            {
-                resize: sizeOptions,
-            },
-        ]
-        const format = {
-            base64,
-            compress,
-            format: saveFormat,
-        }
-        // todo add try and catch block
-        return await ImageManipulator.manipulateAsync(
-            image.uri,
-            options,
-            format
-        )
     }
 
     const prepareResponse = useCallback(
@@ -195,14 +225,20 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
         setLoading(true)
         const selectedAssets = prepareResponse()
         try {
-            if (manipulate) {
-                let modAssets: ImageManipulator.ImageResult[] = []
+            const selectedItemsMetaData: any[] = []
+            if (Settings.getImageMetaData && !Resize) {
+                await asyncForEach(selectedAssets, async (asset: Asset) => {
+                    const metaAsset = await getAssetInfoAsync(asset)
+                    selectedItemsMetaData.push(metaAsset)
+                })
+                return responseWithResults(source, selectedItemsMetaData)
+            }
+            if (Resize) {
+                let modAssets: ImageManipulator.ImageResult[] &
+                    MediaLibrary.Asset[] = []
                 await asyncForEach(selectedAssets, async (asset: Asset) => {
                     if (asset.mediaType === 'photo') {
-                        const resizedImage = await resizeImages(
-                            asset,
-                            manipulate
-                        )
+                        const resizedImage = await resizeImages(asset, Resize)
                         modAssets.push(resizedImage)
                     } else modAssets.push(asset)
                 })
@@ -210,6 +246,10 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
             }
             return responseWithResults(source, selectedAssets)
         } catch (err) {
+            setError({
+                hasError: true,
+                errorType: 'hasErrorWithResizing',
+            })
             return responseWithResults(source, selectedAssets)
         } finally {
             setLoading(false)
@@ -222,46 +262,56 @@ const AssetsSelector = ({ options }: IAssetPickerOptions): JSX.Element => {
     ) => {
         const _default = navigation === 'default'
         return _default
-            ? defaultTopNavigator?.doneFunction(assets)
-            : CustomTopNavigator?.props.doneFunction(assets)
+            ? Navigator?.onSuccess(assets)
+            : CustomNavigator?.props.onSuccess(assets)
     }
-
     return (
-        <Screen bgColor={widgetBgColor}>
-            {CustomTopNavigator && CustomTopNavigator.Component && (
-                <CustomTopNavigator.Component
-                    {...CustomTopNavigator.props}
-                    onFinish={() => manipulateResults('custom')}
-                />
-            )}
-            {defaultTopNavigator && (
-                <DefaultTopNavigator
-                    selectedText={defaultTopNavigator.selectedText}
-                    buttonTextStyle={defaultTopNavigator.buttonTextStyle}
-                    buttonStyle={defaultTopNavigator.buttonStyle}
-                    midTextColor={defaultTopNavigator.midTextColor || 'black'}
-                    backText={defaultTopNavigator.goBackText}
-                    finishText={defaultTopNavigator.continueText}
+        <Screen bgColor={Styles.bgColor}>
+            {CustomNavigator.Component && (
+                <CustomNavigator.Component
+                    {...CustomNavigator.props}
                     selected={selectedItems.length}
-                    backFunction={() => defaultTopNavigator.backFunction()}
-                    onFinish={() => manipulateResults('default')}
+                    onSuccess={() => manipulateResults('custom')}
                 />
             )}
+            {Navigator && (
+                <DefaultTopNavigator
+                    Texts={Navigator.Texts}
+                    selected={selectedItems.length}
+                    onBack={() => Navigator.onBack()}
+                    midTextColor={Navigator.midTextColor || 'black'}
+                    onSuccess={() => manipulateResults('default')}
+                    minSelection={Navigator.minSelection}
+                    buttonTextStyle={Navigator.buttonTextStyle}
+                    buttonStyle={Navigator.buttonStyle}
+                />
+            )}
+
             {isLoading ? (
-                <Spinner color={spinnerColor} />
+                <Spinner color={Styles.spinnerColor} />
+            ) : error.hasError ? (
+                <HasError bgColor={Styles.bgColor}>
+                    <ErrorDisplay
+                        errorType={error.errorType}
+                        errorTextColor={Errors.errorTextColor}
+                        errorMessages={Errors.errorMessages}
+                    />
+                </HasError>
             ) : (
-                <Widget widgetWidth={widgetWidth} bgColor={widgetBgColor}>
-                    <AssetsSelectorList
+                <Widget
+                    widgetWidth={Styles.widgetWidth}
+                    bgColor={Styles.bgColor}
+                >
+                    <AssetList
                         cols={COLUMNS}
-                        margin={margin}
+                        margin={Styles.margin}
                         data={assetItems}
                         getMoreAssets={getAssets}
                         onClick={onClickUseCallBack}
                         selectedItems={selectedItems}
-                        screen={(width * widgetWidth) / 100}
-                        selectedIcon={selectedIcon}
-                        videoIcon={videoIcon}
-                        noAssets={noAssets}
+                        screen={(width * Styles.widgetWidth) / 100}
+                        selectedIcon={Styles.selectedIcon}
+                        videoIcon={Styles.videoIcon}
                     />
                 </Widget>
             )}
@@ -294,6 +344,13 @@ const Spinner: FC<{ color: string }> = ({ color }) => {
         </View>
     )
 }
+
+const HasError = styled.View<IScreen>`
+    background-color: ${({ bgColor }) => bgColor};
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`
 
 const Screen = styled.View<IScreen>`
     background-color: ${({ bgColor }) => bgColor};

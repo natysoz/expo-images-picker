@@ -1,32 +1,31 @@
 # expo-images-picker
 
-Multiple Asset Photos | Videos selecting package for Expo SDK 41+.
+Multiple Asset Photos | Videos selecting package for Expo SDK 42+.
 For users who use React native and managed workflow + Styled Components.
 
 [MediaLibrary](https://docs.expo.io/versions/latest/sdk/media-library).
 
 [Image-manipulator](https://docs.expo.io/versions/v40.0.0/sdk/imagemanipulator/).
 
-[Permissions](https://docs.expo.io/versions/latest/sdk/permissions)
-
 [styled-components](https://github.com/styled-components)
 
-## Best Practice
+### Best Practice just watch the video or Copy the snack :)
 
-Simple How to Video => https://youtu.be/xcMcVZTw6xA
+#### How to Video => https://youtu.be/xcMcVZTw6xA
 
-Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
+#### Copy & Paste => https://snack.expo.dev/@natysoz/expo-images-picker
 
 ## Features
-
+-   expo multiple  image selector
+-   Allow selecting multiple Photos or Videos.
+-   Allow getting extra metadata.
+-   Allow resizing and get base64 images.
 -   Permission requests built in.
--   Getting Multi Assets from the device.
 -   Support Both landscape and portrait.
 -   Simple Indicator for the selected Assets.
 -   Custom Indicator for the selected Assets.
--   Using custom navbar component.
--   Allow selecting multiply Photos or Videos.
--   Optimized , using react hooks , memo and callback to fully optimize performances.
+-   Allow using custom navbar component.
+-   Optimized for speed.
 
 ![Sample](https://media3.giphy.com/media/ZFWKKTlEwqSQ6Fpyhb/giphy.gif) ![Sample](https://media0.giphy.com/media/lp7uTaAD6uHRiSp5XR/giphy.gif)
 
@@ -34,7 +33,7 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
 
 1. Install with
     ```bash
-    $ npm install --save expo-images-picker
+    $ npm install expo-images-picker
     ```
    or
     ```bash
@@ -51,146 +50,233 @@ Demo Snack => https://snack.expo.io/@natysoz/expo-images-picker-example
 4. Use the imported as Following =>
     ```js
     <AssetsSelector
-        options={{
-            /* Add only when u want to Manipulate Assets.
-              manipulate: {
-              width: 512,
-              compress: 0.7,
-              base64: false,
-              saveTo: 'jpeg',
-            },*/
-            assetsType: ['photo', 'video'],
-            maxSelections: 5,
-            margin: 3,
+       Settings={widgetSettings}
+       Errors={widgetErrors}
+       Styles={widgetStyles}
+       Resize={widgetResize}       // optional
+       Navigator={widgetNavigator} // optional
+       CustomNavigator={{          // optional
+            Component: CustomNavigator,
+            props: {
+                backFunction: true,
+                onSuccess,
+                text: T.ACTIONS.SELECT,
+           },
+        }}
+     />
+    ```
+
+##[📚 Params]
+
+### Settings :
+you better create this const out of your component ,
+if you do need it inside your component ,
+use useMemo from react.
+
+ ```js
+    const widgetSettings = useMemo(
+        () => ({
+            getImageMetaData: false,
+            initialLoad: 100,
+            assetsType: [MediaType.photo, MediaType.video],
+            minSelection: 1,
+            maxSelection: 3,
             portraitCols: 4,
-            landscapeCols: 5,
-            widgetWidth: 100,
-            widgetBgColor: bgColor,
-            selectedBgColor: mainColor,
-            spinnerColor: mainColor,
+            landscapeCols: 4,
+        }),
+        []
+    )
+```
+
+- `getImageMetaData` - return an asset with extra metadata fields * may cause slower results .
+
+
+- `initialLoad` - initial amount of assets to load first time.
+
+
+- `assetsType` - array that includes `[MediaType.photo, MediaType.video]`.
+  [`photo` , `video` ].
+
+
+- `minSelection` - min amount of images user need to select.
+
+
+- `maxSelection` - max amount of images user need to select.
+
+
+- `portraitCols` - Number of columns in portrait Mode.
+
+
+- `landscapeCols` -  Number of columns in landscape Mode.
+
+
+### Errors :
+
+```js
+    const widgetErrors = useMemo(
+        () => ({
+            errorTextColor: polar_text_2,
+            errorMessages: {
+                hasErrorWithPermissions: translator(
+                    T.ERROR.HAS_PERMISSIONS_ERROR
+                ),
+                hasErrorWithLoading: translator(T.ERROR.HAS_INTERNAL_ERROR),
+                hasErrorWithResizing: translator(T.ERROR.HAS_INTERNAL_ERROR),
+                hasNoAssets: translator(T.ERROR.HAS_NO_ASSETS),
+            },
+        }),
+        []
+    )
+```
+
+- `onError` - callback function that you can pass and will fire whenever there is an error.
+
+- `errorTextColor` - set the text color of an error message.
+
+- `errorMessages`
+
+      `hasErrorWithPermissions`- error text when there are no permissions.
+      `hasErrorWithLoading` - error text for issue with loading assets.
+      `hasErrorWithResizing` - error text for issue with resizing.
+      `hasNoAssets` - text shows when there are no assets to show.
+
+
+
+### Styles :
+
+```js
+    const widgetStyles = useMemo(
+        () => ({
+            margin: 2,
+            bgColor: bg,
+            spinnerColor: main,
+            widgetWidth: 99,
             videoIcon: {
                 Component: Ionicons,
                 iconName: 'ios-videocam',
-                color: 'white',
+                color: polar_text_1,
                 size: 20,
             },
             selectedIcon: {
                 Component: Ionicons,
                 iconName: 'ios-checkmark-circle-outline',
                 color: 'white',
-                bg: 'white',
-                size: 20,
+                bg: mainWithOpacity,
+                size: 26,
             },
-            defaultTopNavigator: {
-                selectedText: 'Selected',
-                continueText: 'Finish',
-                goBackText: 'Back',
-                midTextColor: 'red',
-                buttonStyle: validViewStyleObject,
-                textStyle: validTextStyleObject,
-                backFunction: goBack,
-                doneFunction: (data) => onDone(data),
+        }),
+        [polar_text_1, mainWithOpacity]
+    )
+```
+
+- `margin` - set margin between the images.
+- `bgColor` - set the widget background color.
+- `spinnerColor` - set the color of the spinner (loading indicator).
+- `widgetWidth` - the widget width in percentages .
+
+
+- `videoIcon`
+
+
+    `Component` - the icon component.(from @expo/vector-icons).
+    `iconName` -  the icon name.
+    `Component` - the icon color.
+    `Component` - the icon size.
+
+- `selectedIcon` - the widget width in percentages .
+
+
+    `Component` - the icon component.(from @expo/vector-icons).
+    `iconName` -  the icon name.
+    `color` - the icon color.
+    `bg` - set the cover color when an asset is select.
+    `size` - the icon size.
+
+
+### Navigator :
+
+```js
+    const widgetNavigator = useMemo(
+        () => ({
+            Texts: {
+                finish: 'finish',
+                back: 'back',
+                selected: 'selected',
             },
-            noAssets: CustomNoAssetsComponent,
-        }}
-    />
-    ```
+            midTextColor: polar_text_2,
+            minSelection: 3,
+            buttonTextStyle: _textStyle,
+            buttonStyle: _buttonStyle,
+            onBack: () => navigation.goBack(),
+            onSuccess: (data: Asset[]) => onSuccess(data),
+        }),
+        []
+    )
+```
 
-##[📚 Params]
-### Options:
+- `Texts` - send in `finish` `back` `selected` texts.
 
--   `assetsType` Could be 'video' , 'photo' or an array with both ['photo','video'].
+- `midTextColor` - set the color of the middle text aka "selected" .
 
--   `maxSelections` Maximum number of assets selection.
+- `minSelection` - set the min selection , `continue` button will be unavailable until user select this amount of images.
 
--   `margin` Margin the Grid items by Pxs.
+- `buttonTextStyle` - Text Style Object , design the text inside the buttons.
 
--   `portraitCols` Number of columns in portrait Mode.by default `4`.
+- `buttonStyle` - View Style Object, design the button itself.
 
--   `landscapeCols` Number of columns in landscape Mode, by default `6`.
+- `onBack` - Send in a function to go back to your screen.
 
--   `widgetWidth` Widget container width , by default `100`.
+- `onSuccess` -  Send in a function to go back and send the returned data.
 
--   `widgetBgColor` Widget background color expect to get Hex color.
+### Resize :
 
--   `spinnerColor` Loading spinner color.
+```js
+    const widgetResize = useMemo(
+        () => ({
+            width: 512,
+            compress: 0.7,
+            base64: false,
+            saveTo: SaveType.JPG,
+        }),
+        []
+    )
+```
 
----
+**Note that using manipulate might result with crash or slow loading times on older phones.
+* All fields are optional , in order to resize and keep images Ratio its recommend sending only width or height, and it will resize using this axis only.
 
--   You can Resize , Compress and Base64 your assets with the following
-    
-    **Note that using `manipulate` might result with crash or slow loading times on older phones.
+- `width` - Manipulate image width `optional`
 
-`manipulate` works only with "photo" Assets.
+- `height` - Manipulate image width `optional`
 
--   `width`  Manipulate image width (optional).
--   `height` Manipulate image height (optional).
--   `compress` Compress 0.1 Super low quality 1.0 leave as is (high quality).
--   `base64` Will add an extra field on response with an image as Base64 string.
--   `saveTo` Manipulate File extension , can be "jpeg" or "png".
+- `compress` - compress 0.1 Super low quality 1.0 leave as is (high quality).
 
--   `*` All fields are optional , in order to resize and keep images Ratio its
-    recommend sending only width or height, and it will resize using this axis only.
----
+- `base64` - will add extra result , image as a base64 string.
+
+- `saveTo` - can be `png` or `jpeg` .
 
 
----
+### CustomNavigator :
 
-`selectedIcon`
+Make sure your CustomTopNavigator can receive onSuccess function.
+And bind this onFinish function on the correct button.
 
--   `Component` Send in the Library you want to use ,Like `Ionicons`.
--   `iconName`  Send in the name property for the icon, Like `'ios-checkmark-circle-outline'`.
--   `color`  Send in the color property for the icon,Like `white`.
--   `bg`  The Fill color of selected component, Like `#ffffff50`.
--   `size`  Send in the size property for the icon, Like `22`.
+- `Component` - Send in your Custom nav bar.
 
----
-
--   You can control the colors , texts of the default nav with the following:
-
-`defaultTopNavigator`
-
--   `continueText` Text for next Button , by default `Continue`.
--   `goBackText` Text for Back Button , by default `Back`.
--   `midTextColor` Middle text override color default as `black`.
--   `buttonTextStyle` Text Style Object , design the text inside the buttons.
--   `buttonStyle` View Style Object, design the button itself.
--   `backFunction`  Send in a function to go back to your screen.
--   `doneFunction`  Send in a function to go back and send the returned data.
-
----
-
-`noAssets`:
-
--   `Component` Send your custom Component that display no assets .
-
----
-
-`CustomTopNavigator`:
-
--   `Component` Send in your Custom nav bar.
--   `props` Send any props your Custom Component needs.
-
-*   usage With Custom Component
-
-#### Make sure your CustomTopNavigator can receive `onFinish`
-
-#### And bind this `onFinish` function on the correct button.
-
-the onFinish type: `onFinish: ()=>void`
+- `props` Send any props your Custom Component needs.
 
 ```js
 <AssetsSelector
-    options={{
-        ...otherProps,
-        CustomTopNavigator: {
-            Component: CustomNavImageSelection,
-            props: {
-                backFunction: true,
-                text: translator(T.PICK_IMAGES),
-                doneFunction: (data: Asset[]) => onDone(data),
-            },
-        },
-    }}
+  options={{
+    ...otherProps,
+    CustomTopNavigator: {
+      Component: CustomNavImageSelection,
+      props: {
+        onSuccess: (data: Asset[]) => onDone(data),
+        backFunction: true,
+        text: T.ACTIONS.SELECT
+      },
+    },
+  }}
 />
 ```
