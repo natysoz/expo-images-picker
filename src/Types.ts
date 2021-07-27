@@ -10,7 +10,7 @@ export type AssetSelectorPropTypes = {
     Styles: StylesType
     Navigator?: NavigatorType
     Resize?: ResizeType
-    CustomNavigator: CustomNavigator
+    CustomNavigator?: CustomNavigator
 }
 
 export type ResizeType = {

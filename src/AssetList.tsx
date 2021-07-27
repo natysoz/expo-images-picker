@@ -20,7 +20,13 @@ const Item = ({
         onClick(id)
     }
 
-    const { Component, color, iconName, size, bg } = selectedIcon
+    const {
+        Component: SelectedIndicator,
+        color: SelectedColor,
+        iconName: SelectedIconName,
+        size: SelectedIconSize,
+        bg: SelectedIconBg,
+    } = selectedIcon
 
     const {
         Component: VideoIndicator,
@@ -48,12 +54,12 @@ const Item = ({
                 </MediaTypeVideo>
             )}
             {selectedIndex >= 0 && (
-                <Selected selectionColor={bg} margin={margin}>
-                    {Component && (
-                        <Component
-                            name={iconName}
-                            size={size}
-                            color={color}
+                <Selected selectionColor={SelectedIconBg} margin={margin}>
+                    {SelectedIndicator && SelectedIconName && (
+                        <SelectedIndicator
+                            name={SelectedIconName}
+                            size={SelectedIconSize}
+                            color={SelectedColor}
                             index={selectedIndex}
                         />
                     )}

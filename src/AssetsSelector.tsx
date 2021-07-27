@@ -267,7 +267,7 @@ const AssetsSelector = ({
     }
     return (
         <Screen bgColor={Styles.bgColor}>
-            {CustomNavigator.Component && (
+            {CustomNavigator?.Component && (
                 <CustomNavigator.Component
                     {...CustomNavigator.props}
                     selected={selectedItems.length}
