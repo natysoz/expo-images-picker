@@ -152,6 +152,13 @@ use useMemo from react.
             bgColor: bg,
             spinnerColor: main,
             widgetWidth: 99,
+            screenStyle:{
+                borderRadius: 5,
+                overflow: "hidden",
+            },
+            widgetStyle:{
+                margin: 10
+            },
             videoIcon: {
                 Component: Ionicons,
                 iconName: 'ios-videocam',
@@ -175,6 +182,8 @@ use useMemo from react.
 - `spinnerColor` - set the color of the spinner (loading indicator).
 - `widgetWidth` - the widget width in percentages .
 
+- `screenStyle` (Optional) - set the style of the `Screen` wrapping both `Navigator` and `Widget`. 
+- `widgetStyle` (Optional) - set the style of the `Widget` wrapping the `AssetList` (contains all the images, videos,etc)
 - `videoIcon`
 
 

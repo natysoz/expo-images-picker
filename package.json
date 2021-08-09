@@ -1,6 +1,6 @@
 {
   "name": "expo-images-picker",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Expo images picker, Selecting Multiple images and videos from user device",
   "main": "index.ts",
   "repository": {
