@@ -11,6 +11,7 @@ export type AssetSelectorPropTypes = {
     Navigator?: NavigatorType
     Resize?: ResizeType
     CustomNavigator?: CustomNavigator
+    onChange?: (data?: any) => void
 }
 
 export type ResizeType = {

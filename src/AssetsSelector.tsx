@@ -30,6 +30,7 @@ const AssetsSelector = ({
     Styles,
     Navigator,
     CustomNavigator,
+    onChange
 }: AssetSelectorPropTypes): JSX.Element => {
     const getScreen = () => Dimensions.get('screen')
 
@@ -53,6 +54,12 @@ const AssetsSelector = ({
     })
 
     const [assetItems, setItems] = useState<Asset[]>([])
+
+    useEffect(() => {
+        if (typeof onChange === 'function') {
+            onChange(assetItems)
+        }
+    }, [assetItems])
 
     const [isLoading, setLoading] = useState(true)
 
