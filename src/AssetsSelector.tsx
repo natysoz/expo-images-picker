@@ -57,9 +57,15 @@ const AssetsSelector = ({
 
     useEffect(() => {
         if (typeof onChange === 'function') {
-            onChange(assetItems)
+            onChange(
+                selectedItems.map((id, index) => {
+                    const asset = assetItems.find((item) => item.id === id)
+                    if (!asset) throw new Error(`Invalid asset at index ${index}`)
+                    return asset
+                })
+            )
         }
-    }, [assetItems])
+    }, [selectedItems, assetItems])
 
     const [isLoading, setLoading] = useState(true)
 
