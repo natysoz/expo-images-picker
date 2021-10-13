@@ -89,6 +89,7 @@ use useMemo from react.
 ```
 
 - `getImageMetaData` - return an asset with extra metadata fields * may cause slower results .
+### but on some ios versions its a must , because u need the absolute file path `file://` and not `asset-library://`
 
 
 - `initialLoad` - initial amount of assets to load first time.
