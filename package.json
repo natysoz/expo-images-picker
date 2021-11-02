@@ -1,6 +1,6 @@
 {
   "name": "expo-images-picker",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Expo images picker, Selecting Multiple images and videos from user device",
   "main": "index.ts",
   "repository": {
@@ -15,12 +15,12 @@
   "homepage": "https://github.com/natysoz/expo-images-picker#readme",
   "peerDependencies": {
     "react": "*",
-    "expo": ">=42.0.0",
+    "expo": ">=43.0.0",
     "react-native": "*"
   },
   "dependencies": {
-    "expo-image-manipulator": "~9.2.2",
-    "expo-media-library": "~12.1.2",
+    "expo-image-manipulator": "~10.1.2",
+    "expo-media-library": "~13.0.3",
     "styled-components": "^5.3.0"
   },
   "devDependencies": {

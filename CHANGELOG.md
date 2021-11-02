@@ -4,6 +4,9 @@
 ### 🛠 Breaking changes
 -----------------------------------------
 
+#### 2.1.0 — 2021-10-30
+- refactor widget deps to support SDK 43+.
+
 #### 2.0.0 — 2021-07-24
 - refactor widget props see README.MD.
 - expo SDK 42 Support.
