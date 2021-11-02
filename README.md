@@ -174,6 +174,7 @@ use useMemo from react.
 - `bgColor` - set the widget background color.
 - `spinnerColor` - set the color of the spinner (loading indicator).
 - `widgetWidth` - the widget width in percentages .
+- `borderRadius` - the border radius of the component.
 
 
 - `videoIcon`
