@@ -97,6 +97,10 @@ size: 22}`
 
 ### 🐛 Bug fixes
 -----------------------------------------
+
+#### 2.1.2 — 2020-06-12
+- fix Compile error typescript 4.3.5 issue with skipLibCheck.
+
 #### 1.1.0 — 2020-06-12
 
 - "after" field Parse was fixed on Expo SDK 39 , it's now working smoothly on Android and IOS.

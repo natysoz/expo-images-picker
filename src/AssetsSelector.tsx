@@ -137,11 +137,11 @@ const AssetsSelector = ({
         getAssets(Settings.initialLoad)
     }, [Settings.assetsType, permissions.hasMediaLibraryPermission])
 
-    const getAssets = (first: number = 100) => {
+    const getAssets = (first: number) => {
         try {
             if (availableOptions.hasNextPage) {
                 const params: AssetsOptions = {
-                    first,
+                    first: first || availableOptions.first,
                     mediaType: Settings.assetsType,
                     sortBy: ['creationTime'],
                 }
