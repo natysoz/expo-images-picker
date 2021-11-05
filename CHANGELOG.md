@@ -44,6 +44,10 @@ you now have `buttonTextStyle` and  `buttonStyle` and `midTextColor`
 
 ### 🎉 New features
 -----------------------------------------
+
+### 2.2.5 - 2022-01-08
+- add `mediaType` to `modAssets` on returning selected resized image.abcd
+
 ### 2.2.4 - 2021-11-12
 - add `screenStyle` and `widgetStyle` to `Styles` and `StylesType`
 
