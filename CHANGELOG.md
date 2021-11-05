@@ -98,7 +98,10 @@ size: 22}`
 ### 🐛 Bug fixes
 -----------------------------------------
 
-#### 2.1.2 — 2020-06-12
+#### 2.2.2 — 2021-05-11
+- fix Compile error with the latest PR.
+
+#### 2.1.2 — 2021-05-10
 - fix Compile error typescript 4.3.5 issue with skipLibCheck.
 
 #### 1.1.0 — 2020-06-12
