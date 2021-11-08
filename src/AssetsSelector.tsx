@@ -97,8 +97,9 @@ const AssetsSelector = ({
 
     const getMediaLibraryPermission = useCallback(async () => {
         try {
-            const { status: MEDIA_LIBRARY }: MediaLibrary.PermissionResponse =
-                await MediaLibrary.requestPermissionsAsync()
+            const {
+                status: MEDIA_LIBRARY,
+            }: MediaLibrary.PermissionResponse = await MediaLibrary.requestPermissionsAsync()
             if (MEDIA_LIBRARY !== 'granted') {
                 setLoading(false)
                 setError({
@@ -151,7 +152,7 @@ const AssetsSelector = ({
                 return permissions.hasMediaLibraryPermission
                     ? loadAssets(params)
                     : getMediaLibraryPermission()
-            }
+            } else return // only added because of `noImplicitReturns` ugly rule.
         } catch (err) {
             setError({
                 hasError: true,
