@@ -159,7 +159,7 @@ const AssetsSelector = ({
                 errorType: 'hasErrorWithLoading',
             })
         }
-        else return // only added because of `noImplicitReturns` ugly rule.
+        return; // only added because of `noImplicitReturns` ugly rule.
     }
 
     const resizeImages = async (image: Asset, manipulate: ResizeType) => {
