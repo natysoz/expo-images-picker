@@ -97,6 +97,8 @@ size: 22}`
 
 ### 🐛 Bug fixes
 -----------------------------------------
+#### 2.2.3 - 2021-08-11
+- fix Compile error with typescript 
 
 #### 2.2.2 — 2021-05-11
 - fix Compile error with the latest PR.
