@@ -152,13 +152,14 @@ const AssetsSelector = ({
                 return permissions.hasMediaLibraryPermission
                     ? loadAssets(params)
                     : getMediaLibraryPermission()
-            } else return // only added because of `noImplicitReturns` ugly rule.
+            } 
         } catch (err) {
             setError({
                 hasError: true,
                 errorType: 'hasErrorWithLoading',
             })
         }
+        return; // only added because of `noImplicitReturns` ugly rule.
     }
 
     const resizeImages = async (image: Asset, manipulate: ResizeType) => {
