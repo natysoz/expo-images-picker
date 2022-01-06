@@ -44,6 +44,9 @@ you now have `buttonTextStyle` and  `buttonStyle` and `midTextColor`
 
 ### 🎉 New features
 -----------------------------------------
+### 2.2.4 - 2021-11-12
+- add `screenStyle` and `widgetStyle` to `Styles` and `StylesType`
+
 #### 2.0.0 — 2021-07-24
 - expo SDK 42 Support.
 - add option to retrieve assets Metadata (Exif, LocalUri and more...).

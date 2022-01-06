@@ -52,6 +52,8 @@ export type StylesType = {
     bgColor: string
     spinnerColor: string
     widgetWidth: number
+    screenStyle?: StyleProp<ViewStyle>
+    widgetStyle?: StyleProp<ViewStyle>
     videoIcon: {
         Component: JSXElementConstructor<any> | null
         iconName: string

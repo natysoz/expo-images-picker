@@ -267,7 +267,7 @@ const AssetsSelector = ({
             : CustomNavigator?.props.onSuccess(assets)
     }
     return (
-        <Screen bgColor={Styles.bgColor}>
+        <Screen bgColor={Styles.bgColor} style={Styles.screenStyle}>
             {CustomNavigator?.Component && (
                 <CustomNavigator.Component
                     {...CustomNavigator.props}
@@ -302,6 +302,7 @@ const AssetsSelector = ({
                 <Widget
                     widgetWidth={Styles.widgetWidth}
                     bgColor={Styles.bgColor}
+                    style={Styles.widgetStyle}
                 >
                     <AssetList
                         cols={COLUMNS}
