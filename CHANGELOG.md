@@ -4,6 +4,10 @@
 ### 🛠 Breaking changes
 -----------------------------------------
 
+#### 2.1.0 — 2022-03-24
+- refactor widget deps to support SDK 43+.
+
+
 #### 2.1.0 — 2021-10-30
 - refactor widget deps to support SDK 43+.
 
