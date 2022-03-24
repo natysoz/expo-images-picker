@@ -39,10 +39,17 @@ For users who use React native and managed workflow + Styled Components.
     ```bash
     $ npm install expo-images-picker
     ```
+   
    or
     ```bash
     $ yarn add expo-images-picker
     ```
+
+   then
+    ```bash
+    $ expo install expo-image-manipulator expo-media-library
+    ```
+
 2. import to the top of your file like
     ```js
     import { AssetsSelector } from 'expo-images-picker'
