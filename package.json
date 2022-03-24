@@ -19,9 +19,9 @@
     "react-native": "*"
   },
   "dependencies": {
-    "expo-image-manipulator": "~10.1.2",
-    "expo-media-library": "~13.0.3",
-    "styled-components": "^5.3.0"
+    "expo-image-manipulator": "~10.2.0",
+    "expo-media-library": "~14.0.0",
+    "styled-components": "^5.2.3"
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.11",
