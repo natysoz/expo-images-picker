@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import { ErrorTypes } from './Types'
+import { Button, Linking } from 'react-native'
 
 const ErrorDisplay = ({
     errorType,
@@ -25,6 +26,12 @@ const ErrorDisplay = ({
                         {errorMessages?.hasErrorWithPermissions ||
                             'Please Allow media and files permissions and try again.'}
                     </Text>
+                    <Button
+                        title="Open Settings"
+                        onPress={() => {
+                            Linking.openSettings()
+                        }}
+                    />
                 </PermissionsError>
             )}
             {errorType === 'hasErrorWithLoading' && (
@@ -49,12 +56,15 @@ const ErrorDisplay = ({
 
 const Text = styled.Text<{ color: string }>`
     color: ${({ color }) => color || 'black'};
+    margin: 10px;
 `
 const PermissionsError = styled.View`
     width: 90%;
 `
+
 const LoadingAssetsError = styled.View``
 const ResizeImagesError = styled.View``
+
 const Container = styled.View`
     justify-content: center;
     align-items: center;
