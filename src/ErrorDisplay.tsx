@@ -23,7 +23,7 @@ const ErrorDisplay = ({
                 <PermissionsError>
                     <Text color={errorTextColor || 'black'}>
                         {errorMessages?.hasErrorWithPermissions ||
-                            'Please Allow media permissions and try again.'}
+                            'Please Allow media and files permissions and try again.'}
                     </Text>
                 </PermissionsError>
             )}
@@ -31,7 +31,7 @@ const ErrorDisplay = ({
                 <LoadingAssetsError>
                     <Text color={errorTextColor || 'black'}>
                         {errorMessages?.hasErrorWithLoading ||
-                            'There was error loading assets.'}
+                            'There was an error loading assets.'}
                     </Text>
                 </LoadingAssetsError>
             )}
@@ -39,7 +39,7 @@ const ErrorDisplay = ({
                 <ResizeImagesError>
                     <Text color={errorTextColor || 'black'}>
                         {errorMessages?.hasErrorWithResizing ||
-                            'There was error loading assets.'}
+                            'There was an error resize assets.'}
                     </Text>
                 </ResizeImagesError>
             )}

@@ -4,6 +4,10 @@
 ### 🛠 Breaking changes
 -----------------------------------------
 
+#### 2.4.0 — 2022-05-22
+- upgrade using expo sdk 45 to fix permissions issue.
+
+
 #### 2.1.0 — 2022-03-24
 - refactor widget deps to support SDK 44.0.0+.
 

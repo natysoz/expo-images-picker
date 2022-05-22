@@ -10,8 +10,7 @@ For users who use React native and managed workflow + Styled Components.
 [styled-components](https://github.com/styled-components)
 
 
-### There is an issue with expo permissions that will be fixed only on expo sdk 45, please pay attention, if client approve permissions all should work clean , but if client decline permissions , and then go to settings and manually allow them it wont work until the sdk 45 fix , for users who cloud build their apps it will work fine.
-
+### Test permissions with SDK 45 working without issues.
 
 ### Best Practice just watch the video or Copy the snack :)
 
