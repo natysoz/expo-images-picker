@@ -253,6 +253,8 @@ use useMemo from react.
     const widgetResize = useMemo(
         () => ({
             width: 512,
+            height: 384,
+            majorAxis: 512,
             compress: 0.7,
             base64: false,
             saveTo: SaveType.JPG,
@@ -267,6 +269,8 @@ use useMemo from react.
 - `width` - Manipulate image width `optional`
 
 - `height` - Manipulate image width `optional`
+
+- `majorAxis` - Manipulate image's major axis only (if width and height are not specified) `optional`
 
 - `compress` - compress 0.1 Super low quality 1.0 leave as is (high quality).
 

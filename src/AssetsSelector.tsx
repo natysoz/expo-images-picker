@@ -184,7 +184,7 @@ const AssetsSelector = ({
                 sizeOptions.height = image.height
             }
 
-            if (majorAxis) {
+            if (majorAxis && !width && !height) {
                 if (image.width > image.height)
                     sizeOptions.width = majorAxis
                 else sizeOptions.height = majorAxis
