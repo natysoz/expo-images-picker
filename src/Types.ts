@@ -16,6 +16,7 @@ export type AssetSelectorPropTypes = {
 export type ResizeType = {
     width?: number
     height?: number
+    majorAxis?: number
     compress?: number
     base64: boolean
     saveTo?: string

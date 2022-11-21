@@ -164,7 +164,7 @@ const AssetsSelector = ({
 
     const resizeImages = async (image: Asset, manipulate: ResizeType) => {
         try {
-            const { base64, width, height, saveTo, compress } = manipulate
+            const { base64, width, height, majorAxis, saveTo, compress } = manipulate
             const saveFormat = saveTo
                 ? saveTo === 'jpeg'
                     ? ImageManipulator.SaveFormat.JPEG
@@ -179,9 +179,15 @@ const AssetsSelector = ({
                 height,
             }
 
-            if (!width && !height) {
+            if (!majorAxis && !width && !height) {
                 sizeOptions.width = image.width
                 sizeOptions.height = image.height
+            }
+
+            if (majorAxis) {
+                if (image.width > image.height)
+                    sizeOptions.width = majorAxis
+                else sizeOptions.height = majorAxis
             }
             const options = [
                 {
