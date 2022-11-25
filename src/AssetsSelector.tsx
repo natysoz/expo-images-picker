@@ -81,6 +81,15 @@ const AssetsSelector = ({
                         after: endCursor,
                         hasNextPage: hasNextPage,
                     })
+                    if (Settings.existingSelectionIds) {
+                        const selected: string[] = []
+                        for (let i = 0; i < assets.length; i++) {
+                            if (Settings.existingSelectionIds.includes(assets[i].id)) {
+                                selected.push(assets[i].id)
+                            }
+                        }
+                        setSelectedItems([...selected])
+                    }
                     setLoading(false)
                     return setItems([...assetItems, ...assets])
                 })
@@ -225,7 +234,7 @@ const AssetsSelector = ({
                         selectedItems.indexOf(a.id) -
                         selectedItems.indexOf(b.id)
                 ),
-        [selectedItems]
+        [assetItems, selectedItems]
     )
 
     const manipulateResults = async (source: string) => {
@@ -242,13 +251,14 @@ const AssetsSelector = ({
             }
             if (Resize) {
                 let modAssets: (ImageManipulator.ImageResult &
-                    Pick<MediaLibrary.Asset, 'mediaType'>)[] = []
+                    Pick<MediaLibrary.Asset, 'mediaType' | 'id'>)[] = []
                 await asyncForEach(selectedAssets, async (asset: Asset) => {
                     if (asset.mediaType === 'photo') {
                         const resizedImage = await resizeImages(asset, Resize)
                         modAssets.push({
                             ...resizedImage,
                             mediaType: asset.mediaType,
+                            id: asset.id
                         })
                     } else modAssets.push(asset)
                 })

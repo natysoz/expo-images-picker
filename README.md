@@ -91,6 +91,7 @@ use useMemo from react.
             assetsType: [MediaType.photo, MediaType.video],
             minSelection: 1,
             maxSelection: 3,
+            existingSelectionIds: ["<selected Id 1>", "<selected Id 2>", "<selected Id N>"],
             portraitCols: 4,
             landscapeCols: 4,
         }),
@@ -113,6 +114,9 @@ use useMemo from react.
 
 
 - `maxSelection` - max amount of images user need to select.
+
+
+- `existingSelectionIds` - array that includes the id's of those assets previously selected. Each value comes from the Asset in onSuccess callback. `optional`
 
 
 - `portraitCols` - Number of columns in portrait Mode.
@@ -282,20 +286,44 @@ use useMemo from react.
 ### CustomNavigator :
 
 Make sure your CustomTopNavigator can receive onSuccess function.
-And bind this onFinish function on the correct button.
+And bind this onFinish function on the correct button. This is useful for
+integrating with React Navigation header.
 
 - `Component` - Send in your Custom nav bar.
 
 - `props` Send any props your Custom Component needs.
 
+Example with React Navigation
+
 ```js
+type CustomNavImageSelectionProps = {
+  navigation: CustomNavigationProp
+  onSuccess: () => void
+  backFunction: boolean
+  text: string
+};
+
+function CustomNavImageSelection({ navigation, onSuccess, backFunction, text }: CustomNavImageSelectionProps) {
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <Button title={text} onPress={onSuccess} />,
+    })
+  }, [navigation, onSuccess, text])
+
+  return null
+}
+
 <AssetsSelector
   options={{
     ...otherProps,
     CustomTopNavigator: {
       Component: CustomNavImageSelection,
       props: {
-        onSuccess: (data: Asset[]) => onDone(data),
+        navigation,
+        onSuccess: (data: Asset[]) => {
+            onDone(data)
+            navigation.goBack()
+        },
         backFunction: true,
         text: T.ACTIONS.SELECT
       },

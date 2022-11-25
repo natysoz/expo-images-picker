@@ -32,6 +32,7 @@ export type SettingsType = {
     assetsType: MediaTypeValue[]
     minSelection: number
     maxSelection: number
+    existingSelectionIds?: string[]
     portraitCols: number
     landscapeCols: number
     getImageMetaData: boolean
