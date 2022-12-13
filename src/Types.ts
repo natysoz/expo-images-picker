@@ -16,6 +16,7 @@ export type AssetSelectorPropTypes = {
 export type ResizeType = {
     width?: number
     height?: number
+    majorAxis?: number
     compress?: number
     base64: boolean
     saveTo?: string
@@ -31,6 +32,7 @@ export type SettingsType = {
     assetsType: MediaTypeValue[]
     minSelection: number
     maxSelection: number
+    existingSelectionIds?: string[]
     portraitCols: number
     landscapeCols: number
     getImageMetaData: boolean

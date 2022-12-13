@@ -81,6 +81,15 @@ const AssetsSelector = ({
                         after: endCursor,
                         hasNextPage: hasNextPage,
                     })
+                    if (Settings.existingSelectionIds) {
+                        const selected: string[] = []
+                        for (let i = 0; i < assets.length; i++) {
+                            if (Settings.existingSelectionIds.includes(assets[i].id)) {
+                                selected.push(assets[i].id)
+                            }
+                        }
+                        setSelectedItems([...selected])
+                    }
                     setLoading(false)
                     return setItems([...assetItems, ...assets])
                 })
@@ -164,7 +173,7 @@ const AssetsSelector = ({
 
     const resizeImages = async (image: Asset, manipulate: ResizeType) => {
         try {
-            const { base64, width, height, saveTo, compress } = manipulate
+            const { base64, width, height, majorAxis, saveTo, compress } = manipulate
             const saveFormat = saveTo
                 ? saveTo === 'jpeg'
                     ? ImageManipulator.SaveFormat.JPEG
@@ -179,9 +188,15 @@ const AssetsSelector = ({
                 height,
             }
 
-            if (!width && !height) {
+            if (!majorAxis && !width && !height) {
                 sizeOptions.width = image.width
                 sizeOptions.height = image.height
+            }
+
+            if (majorAxis && !width && !height) {
+                if (image.width > image.height)
+                    sizeOptions.width = majorAxis
+                else sizeOptions.height = majorAxis
             }
             const options = [
                 {
@@ -219,7 +234,7 @@ const AssetsSelector = ({
                         selectedItems.indexOf(a.id) -
                         selectedItems.indexOf(b.id)
                 ),
-        [selectedItems]
+        [assetItems, selectedItems]
     )
 
     const manipulateResults = async (source: string) => {
@@ -236,13 +251,14 @@ const AssetsSelector = ({
             }
             if (Resize) {
                 let modAssets: (ImageManipulator.ImageResult &
-                    Pick<MediaLibrary.Asset, 'mediaType'>)[] = []
+                    Pick<MediaLibrary.Asset, 'mediaType' | 'id'>)[] = []
                 await asyncForEach(selectedAssets, async (asset: Asset) => {
                     if (asset.mediaType === 'photo') {
                         const resizedImage = await resizeImages(asset, Resize)
                         modAssets.push({
                             ...resizedImage,
                             mediaType: asset.mediaType,
+                            id: asset.id
                         })
                     } else modAssets.push(asset)
                 })
