@@ -10,7 +10,7 @@ For users who use React native and managed workflow + Styled Components.
 [styled-components](https://github.com/styled-components)
 
 
-### Test permissions with SDK 45 working without issues.
+### Test permissions with SDK 47 working without issues.
 
 ### Best Practice just watch the video or Copy the snack :)
 
